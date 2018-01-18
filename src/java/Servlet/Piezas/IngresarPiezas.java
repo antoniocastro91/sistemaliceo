@@ -1,32 +1,27 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package Servlet.Piezas;
 
-
-
 import Controlador.Inventario.ControladorInventario;
 import Include.Inventario.Inventario;
-import com.itextpdf.text.pdf.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -35,9 +30,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author Antonio Castro
  */
-@WebServlet(name = "ModificarPiezas", urlPatterns = {"/modificar_Piezas"})
-public class ModificarPiezas extends HttpServlet {
-
+@MultipartConfig
+@WebServlet(name = "IngresarPiezas", urlPatterns = {"/piezas_Ingresar"})
+public class IngresarPiezas extends HttpServlet {
     private String UPLOAD_DIRECTORY = "";
     private static String nombre_imagen = "";
     private static String error = "";
@@ -58,29 +53,14 @@ public class ModificarPiezas extends HttpServlet {
             this.UPLOAD_DIRECTORY = this.getServletContext().getRealPath("resources/imagenes");
             Inventario inv = new Inventario();
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-            imagenes.clear();
-            int i = 0;
             for (FileItem item : items) {
                 if (item.isFormField()) {
                     // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
                     inv = this.obtener_datos(inv, item.getFieldName(), item.getString());
                 } else{
                     if(item.getName().length() > 0){
-                        String img = inv.getImagenes() != null ? inv.getImagenes(): "";
-                        if(inv.getImagenes() != null){                           
-                            String imag[] = img.split(";");
-                            //out.println(item.getFieldName());
-                            int indice = Integer.parseInt(item.getFieldName().split("_")[1]) - 1;
-                            if(indice >= imag.length){
-                                img = !inv.getImagenes().contains(item.getName()) ? inv.getImagenes() + ";" +item.getName() : inv.getImagenes();
-                            }else{
-                                imag[indice] = !inv.getImagenes().contains(item.getName()) ? item.getName(): imag[indice];
-                                img = String.join(";", imag);
-                            }
-                        }else{
-                            img = item.getName();
-                        }
                         imagenes.add(item);
+                        String img = inv.getImagenes() != null ? inv.getImagenes() + ";" +item.getName() : item.getName();
                         inv.setImagenes(img);
                     }
                 }
@@ -89,8 +69,8 @@ public class ModificarPiezas extends HttpServlet {
          ControladorInventario  ci= new ControladorInventario();
          //Inventario inv = new Inventario(numinventari, descrip, nombre, forma, material, tecnica, color, periodo, clasificacion,alto,ancho,largo,diametro,grosor,peso,  procedencia, condicion, formaadquisi,fechaadquisi , regimen, custodio, fechainv, realizadopor,  observaciones);
           
-        if(ci.actualizar(inv)){
-            if(this.subir_imagen(imagenes, inv.getIdInventario())){
+        if(ci.insertar(inv)){
+            if(this.subir_imagen(imagenes, ci.ultimo_id_insertado)){
                 response.getWriter().print("1");
                 response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/piezas/lista.jsp"));
             }else{
@@ -104,13 +84,11 @@ public class ModificarPiezas extends HttpServlet {
        }catch(Exception e){
            response.getWriter().println("Error");
        }
+        
     }
     
     private Inventario obtener_datos(Inventario i, String campo, String valor){
         switch(campo){
-            case "id":
-                i.setIdInventario(Integer.parseInt(valor));
-                break;
             case "numinv":
                 i.setNumInventario(valor);
                 break;
@@ -190,9 +168,6 @@ public class ModificarPiezas extends HttpServlet {
                 break;
             case "observaciones":
                 i.setObservaciones(valor) ;
-                break;
-            case "imagenes":
-                i.setImagenes(valor) ;
                 break;
         }
         return i;

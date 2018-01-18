@@ -3,15 +3,23 @@
 <%@page import="Include.Usuario.Usuario"%>
 <%@page import="Controlador.Usuario.ControladorUsuario"%>
 <% 
-
+    HttpSession sesion = request.getSession(true);
+    String usu = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();
+    String url = response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/login.jsp");
+    if(usu == ""){
+        response.sendRedirect(url);
+        return;
+    }
+    Object nivel = sesion.getAttribute("nivel") == null ? null : sesion.getAttribute("nivel");
+    if (Integer.parseInt(nivel.toString()) != 1){
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
+    }
     ControladorUsuario controladorUsuario = new ControladorUsuario();
     Usuario usuario = new Usuario();
-
-
 %>
 <jsp:include page="../common/header.jsp"/>
             <div class="row main">
-                <div class="main-login main-center">
+                <div class="main-usuario main-center-usuario">
                     <form class="" method="post" id="frm-registousuario" action="CrearUsuario">
                          <h3 align="center">Formulario para el Registro de Usuarios.</h3>
                         <div class="row">
@@ -19,14 +27,14 @@
                                 <label for="name" class="cols-sm-3">Ingrese el Usuario</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                        <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Ingrese el Usuario"/>
+                                        <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Ingrese el Usuario" required=""/>
                                     </div>
                                   </div>
                             <div class="form-group col-md-6">
                                <label for="name" class="control-label">Ingrese la Contraseña</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                        <input type="password" name="clave" id="password" class="form-control" placeholder="Ingrese la Contraseña "/>
+                                        <input type="password" name="clave" id="password" class="form-control" placeholder="Ingrese la Contraseña"/>
                                     </div>
                             </div>
                         </div>
@@ -36,7 +44,7 @@
                                <label for="name" class="control-label">Ingrese un correo electrónico</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                        <input  id="email" name="email" type="text" class="form-control" placeholder="Ingrese un Correo"/>
+                                        <input  id="email" name="email" type="text" class="form-control" placeholder="Ingrese un Correo" required=""/>
                                     </div>
                            </div>
                             <div class="form-group col-md-6">
@@ -61,23 +69,9 @@
                                             </select>
                                       </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="text" class="control-label">Usuario Creación</label>
-                                       <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                            <input type="text" name="usucrea" id="usucrea" class="form-control" placeholder="Ingrese el usuario de creacion"/>
-                                        </div>
-                                   </div>
+  
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                       <label for="date" class="cols-sm-3 control-label">Fecha de Creacion</label>
-                                           <div class="input-group">
-                                               <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                               <input type="date" name="fechacrea" id="fechacrea" class="form-control"/>
-                                            </div>
-                                   </div>
-                                </div>
+
                             
                                <div class="row">
                                     <div class="form-group ">

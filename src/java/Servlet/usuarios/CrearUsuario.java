@@ -8,11 +8,16 @@ package Servlet.usuarios;
 import java.io.IOException;
 import Include.Usuario.Usuario;
 import Controlador.Usuario.ControladorUsuario;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,15 +38,20 @@ public class CrearUsuario extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        try{
-        response.setContentType("text/html;charset=UTF-8");
+        HttpSession sesion = request.getSession(true);
+        String usu = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();
+        Date ahora = new Date();
+        SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
+    
         
+        response.setContentType("text/html;charset=UTF-8");
         String usuario = request.getParameter("usuario");
         String clave = request.getParameter("clave");
         String email = request.getParameter("email");
         Integer estado = Integer.parseInt(request.getParameter("estado"));
 	Integer nivel = Integer.parseInt(request.getParameter("nivel"));
-	String usuariocreacion = request.getParameter("usucrea");
-	String fechacreacion = request.getParameter("fechacrea");
+	String usuariocreacion = usu;
+	String fechacreacion = formateador.format(ahora);
      
         Usuario usuario1 = new Usuario(null, null,usuario, clave,email, estado, nivel,usuariocreacion, fechacreacion);
         Controlador.Usuario.ControladorUsuario cu = new ControladorUsuario();

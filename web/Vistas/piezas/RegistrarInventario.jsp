@@ -1,25 +1,35 @@
-<%@page import="Controlador.Ficha.ControladorFicha"%>
-<%@page import="Include.Ficha.Ficha"%>
+<%@page import="Modelo.Conexion.Conexion"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    Conexion con = new Conexion();
+    HttpSession sesion = request.getSession(true);
+    String usuario = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();
+    String url = response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/login.jsp");
+    if(usuario == ""){
+        response.sendRedirect(url);
+        return;
+    }
+    Object nivel = sesion.getAttribute("nivel") == null ? null : sesion.getAttribute("nivel");
+    if (Integer.parseInt(nivel.toString()) == 3){
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
+    }
+%> 
 <jsp:include page="../common/header.jsp"/>
-<% 
-
-    Controlador.Ficha.ControladorFicha controladorFicha = new ControladorFicha();
-    Ficha ficha = new Ficha();
-
-
-%>
  <div class="container">
             <div class="row main">
                 <div class="main-login main-center-inven">
-                    <form class="" method="post" id="frm-registousuario" action="CrearFicha" enctype="multipart/form-data">
+                    <form class="" method="post" id="frm-registousuario" action="piezas_Ingresar" enctype="multipart/form-data">
                          <h3 align="center">Formulario para el Registro de Inventario.</h3>
+                         
                          <div class="row">
                              <div class="form-group col-md-5">
                                      <label for="name" class="cols-sm-3 control-label">Inv Nº</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class=" glyphicon glyphicon-barcode"></i></span>
-                                               <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el numero de Inventario"/>
+                                               <input type="text" id="numinv" name="numinv" class="form-control" placeholder="Ingrese el numero de Inventario"/>
                                          </div>
                                 </div>
                          </div>    
@@ -28,8 +38,7 @@
                                      <label for="name" class="cols-sm-3 control-label">Descripcion</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span>
-                                               <textarea style="color: black;" rows="2" cols="168">
-                                                </textarea> 
+                                               <textarea id="descrip" name="descrip"  style="color: black;" rows="2" cols="168"></textarea> 
                                          </div>
                                 </div>
                          </div>
@@ -48,20 +57,40 @@
                                                <input type="text" id="forma" name="forma" class="form-control" placeholder="Forma"/>
                                          </div>
                                 </div>
+                                  <%
+                                                   Statement statement = con.getConexion().createStatement();
+                                                   ResultSet rs = statement.executeQuery("select * from Materiales");        
+                                 %>
                                <div class="form-group col-md-4">
                                      <label for="name" class="control-label">Material de la Pieza</label>
                                         <div class="input-group">
-                                               <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-                                               <input type="text" id="material" name="material" class="form-control" placeholder="Material"/>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-screenshot"></i></span>
+                                                 <select type="text" id="material" name="material" class="form-control">
+                                                    <option selected > Seleccione el Material</option>
+
+                                                     <% while(rs.next()) { %>
+                                                     <option value="<%=rs.getString("IdMaterial")%>"> <%=rs.getString("Material")%></option> 
+                                                     <% }%>    
+                                                 </select>
                                          </div>
                                 </div>
                          </div>
                         <div class="row">
+                                 <%
+                                        Statement statementt = con.getConexion().createStatement();
+                                        ResultSet rss = statementt.executeQuery("select * from tecnicas");        
+                                 %>
                               <div class="form-group col-md-4">
                                   <label for="name" class="cols-sm-3 control-label">T&eacute;cnica de la Pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-text-width"></i></span>
-                                               <input type="text" id="tecnica" name="tecnica" class="form-control" placeholder="Tecnica"/>
+                                               <select type="text" id="tecnica" name="tecnica" class="form-control">   
+                                               <option selected > Seleccione la Tecnica</option>
+
+                                                     <% while(rss.next()) { %>
+                                                     <option value="<%=rss.getString("IdTecnica")%>"> <%=rss.getString("Tecnica")%></option> 
+                                                     <% }%>    
+                                                 </select>
                                          </div>
                                 </div>
                               <div class="form-group col-md-4">
@@ -107,7 +136,7 @@
                                      <label for="name" class="control-label">Largo</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-option-horizontal"></i></span>
-                                               <input type="text" id="periodo" name="periodo" class="form-control" placeholder="Largo"/>
+                                               <input type="text" id="largo" name="largo" class="form-control" placeholder="Largo"/>
                                          </div>
                                 </div>
                                </div> 
@@ -146,7 +175,7 @@
                                      <label for="name" class="control-label">Condicion de la Pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-exclamation-sign"></i></span>
-                                               <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Condicion "/>
+                                               <input type="text" id="condicion" name="condicion" class="form-control" placeholder="Condicion "/>
                                          </div>
                                 </div>
                                   <div class="form-group col-md-4">
@@ -160,11 +189,12 @@
                              <div class="row">
                               <div class="form-group col-md-4">
                                   <label for="name" class="control-label">Fecha de Adquisici&oacute;n</label>
-                                        <div class="input-group">
+                                  <div class="input-group date" >
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                               <input type="date" id="fechaadquisi" name="fechaadquisi" class="form-control"/>
+                                               <input type="text" id="fechaadquisi" name="fechaadquisi" class="form-control"/>
                                          </div>
                                 </div>
+                                 
                                  <div class="form-group col-md-4">
                                   <label for="name" class="cols-sm-3 control-label">R&eacute;gimen de propiedad</label>
                                         <div class="input-group">
@@ -176,7 +206,7 @@
                                   <label for="name" class="control-label">Custodio</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                               <input type="text" id="Custodio" name="Custodio" class="form-control" placeholder="Custodio" />
+                                               <input type="text" id="custodio" name="custodio" class="form-control" placeholder="Custodio" />
                                          </div>
                                 </div>
                          </div>
@@ -185,14 +215,14 @@
                                      <label for="name" class="cols-sm-3 control-label">Fecha de inventario</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                               <input type="text" id="nombre" name="nombre" class="form-control"/>
+                                               <input type="text" id="fechainv" name="fechainv" class="form-control"/>
                                          </div>
                                 </div>
                               <div class="form-group col-md-6">
                                      <label for="name" class="control-label">Realizado por</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                               <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el tipo de  Material"/>
+                                               <input type="text" id="realizadopor" name="realizadopor" class="form-control" placeholder="Ingrese el tipo de  Material"/>
                                          </div>
                                 </div>
                          </div>
@@ -201,7 +231,7 @@
                                      <label for="name" class="control-label">Observaciones</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span>
-                                               <textarea style="color: black;" rows="2" cols="168">
+                                               <textarea  id="observaciones" name="observaciones" style="color: black;" rows="2" cols="168">
                                                 </textarea> 
                                          </div>
                                 </div>

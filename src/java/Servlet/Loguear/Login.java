@@ -11,6 +11,7 @@ import Modelo.Conexion.Conexion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author antonio
  */
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
 
     /**
@@ -47,15 +49,19 @@ public class Login extends HttpServlet {
                 case 1:
                        sesion.setAttribute("usuario", usuario); 
                        sesion.setAttribute("nivel", 1);
-                       
+                       response.getWriter().print("principal");
                 break;
-
                 case 2:
                         sesion.setAttribute("usuario", usuario);
                         sesion.setAttribute("nivel",2);
-                   
+                        response.getWriter().print("principal");
+                break;        
+                case 3:
+                   sesion.setAttribute("usuario", usuario);
+                   sesion.setAttribute("nivel", 3);
+                   response.getWriter().print("lista_imagenes");
+                break;  
            }
-            response.getWriter().print("ok");
        }else {
            response.getWriter().print("error");
        }

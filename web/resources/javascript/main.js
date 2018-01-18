@@ -22,10 +22,17 @@ $(function()
        submitHandler:function(form){
             var data =  $("#frm-login").serialize();
             $.post('Login', data, function(res, est, jqXHR){
-                if(res == 'ok'){
-                     window.location = "Vistas/Principal/principal.jsp";   
+                if(res != 'error'){
+                    switch(res){
+                        case 'principal':
+                            window.location = "Vistas/Principal/principal.jsp"; 
+                            break;
+                        case 'lista_imagenes':
+                            window.location = "Vistas/piezas/lista_imagenes.jsp"; 
+                            break;
+                    }
                 }else{
-                    alert("Credenciales invalidas")
+                    alert("Credenciales invalidas");
                 }
             });
         

@@ -17,66 +17,87 @@ import java.util.List;
 public class ModeloInventario extends Conexion{
     private Conexion c = new Conexion();
     public String error = "";
+    public int ultimo_id_insertado = -1;
        public boolean insertarinventario(Inventario i){
         boolean flag = false;
          PreparedStatement pst = null;
          PreparedStatement pst1 = null;
         try{
-            String sql="INSERT INTO `sistemmuna`.`piezas` (`Nombre`, `Forma`, `Material`, `Tecnica`, `Color`, `Periodo`, `Clasificacion`, `Alto`, `Ancho`, `Largo`, `Diamtero`, `Grosor`, `Peso`, `Procedencia`, `Condicion`, `FormaAdquisicion`, `FAdquisicion`, `Regimen`, `Custodio`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+            String sql="INSERT INTO `sistemmuna`.`piezas` (`Nombre`, `Forma`, `Material`, `Tecnica`, `Color`, `Periodo`, "
+                          + "`Clasificacion`, `Alto`, `Ancho`, `Largo`, `Diamtero`, `Grosor`, `Peso`, `Procedencia`, `Condicion`, "
+                          + "`FormaAdquisicion`, `FAdquisicion`, `Regimen`, `Custodio`) "
+                          + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             pst = getConexion().prepareStatement(sql);
             pst.setString(1, i.getNombrePieza());
             pst.setString(2, i.getForma());
-            pst.setString(3, i.getMaterial());
-            pst.setString(4, i.getTecnica());
+            pst.setInt(3, i.getIdMaterial());
+            pst.setInt(4, i.getIdTecnica());
             pst.setString(5, i.getColor());
             pst.setString(6, i.getPeriodo());
             pst.setString(7, i.getClasificacion());
-            pst.setDouble(8, i.getAlto());
-            pst.setDouble(9, i.getAncho());
-            pst.setDouble(10, i.getLargo());
-            pst.setDouble(11, i.getDiamtero());
-            pst.setDouble(12, i.getGrosor());
-            pst.setDouble(13, i.getPeso());
+            pst.setString(8, i.getAlto());
+            pst.setString(9, i.getAncho());
+            pst.setString(10, i.getLargo());
+            pst.setString(11, i.getDiamtero());
+            pst.setString(12, i.getGrosor());
+            pst.setString(13, i.getPeso());
             pst.setString(14, i.getProcedencia());
             pst.setString(15, i.getCondicion());
             pst.setString(16, i.getFormaAdquisicion());
-            pst.setString(17, i.getFAdquisicion());
+            pst.setDate(17, new java.sql.Date(i.getFAdquisicion().getTime()));
             pst.setString(18, i.getRegimen());
             pst.setString(19, i.getCustodio());
             
-            String sql1="INSERT INTO `sistemmuna`.`inventarios` (`NumInventario`,  `Descripcion`, `NombrePieza`, `Forma`, `Material`, `Tecnica`, `Color`, `Periodo`, `Clasificacion`, `Alto`, `Ancho`, `Largo`, `Diamtero`, `Grosor`, `Peso`, `Procedencia`, `Condicion`, `FormaAdquisicion`, `FAdquisicion`, `Regimen`, `Custodio`, `FInventario`, `RealizadoPor`,  `Observaciones`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            pst1 = getConexion().prepareStatement(sql1);
+            String sql1="INSERT INTO `sistemmuna`.`inventarios` (`NumInventario`,  `Descripcion`, `NombrePieza`, `Forma`, "
+                          + "`IdMaterial`, `IdTecnica`, `Color`, `Periodo`, `Clasificacion`, `Alto`, `Ancho`, `Largo`, `Diamtero`, "
+                          + "`Grosor`, `Peso`, `Procedencia`, `Condicion`, `FormaAdquisicion`, `FAdquisicion`, `Regimen`, `Custodio`, "
+                          + "`FInventario`, `RealizadoPor`,  `Observaciones`, `Imagenes`) "
+                          + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            pst1 = getConexion().prepareStatement(sql1, PreparedStatement.RETURN_GENERATED_KEYS);
             pst1.setString(1, i.getNumInventario());
             pst1.setString(2, i.getDescripcion());
             pst1.setString(3, i.getNombrePieza());
             pst1.setString(4, i.getForma());
-            pst1.setString(5, i.getMaterial());
-            pst1.setString(6, i.getTecnica());
+            pst1.setInt(5, i.getIdMaterial());
+            pst1.setInt(6, i.getIdTecnica());
             pst1.setString(7, i.getColor());
             pst1.setString(8, i.getPeriodo());
             pst1.setString(9, i.getClasificacion());
-            pst1.setDouble(10, i.getAlto());
-            pst1.setDouble(11, i.getAncho());
-            pst1.setDouble(12, i.getLargo());
-            pst1.setDouble(13, i.getDiamtero());
-            pst1.setDouble(14, i.getGrosor());
-            pst1.setDouble(15, i.getPeso());
+            pst1.setString(10, i.getAlto());
+            pst1.setString(11, i.getAncho());
+            pst1.setString(12, i.getLargo());
+            pst1.setString(13, i.getDiamtero());
+            pst1.setString(14, i.getGrosor());
+            pst1.setString(15, i.getPeso());
             pst1.setString(16, i.getProcedencia());
             pst1.setString(17, i.getCondicion());
             pst1.setString(18, i.getFormaAdquisicion());
-            pst1.setString(19, i.getFAdquisicion());
+            pst1.setDate(19, new java.sql.Date(i.getFAdquisicion().getTime()));
             pst1.setString(20, i.getRegimen());
             pst1.setString(21, i.getCustodio()); 
-            pst1.setString(22, i.getFInventario());                      
+            pst1.setDate(22, new java.sql.Date(i.getFInventario().getTime()));                      
             pst1.setString(23, i.getRealizadoPor());
             pst1.setString(24, i.getObservaciones());
-
+            pst1.setString(25, i.getImagenes());
+            error = pst1.toString();
               if(pst.executeUpdate() == 1 && pst1.executeUpdate() == 1 ){
             flag = true;
              }
+              
+              try (ResultSet generatedKeys = pst1.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    this.ultimo_id_insertado = generatedKeys.getInt(1);
+                }
+                else {
+                    this.ultimo_id_insertado = -1;
+                }
+            }catch(Exception e){
+                this.error = e.getMessage();
+            }
         
         }catch (Exception e) {
-             System.err.println(e.getMessage());
+             error += (e.getMessage());
+             this.ultimo_id_insertado = -1;
         }finally{
             try {
                 if(getConexion()!= null) getConexion().close();
@@ -91,7 +112,7 @@ public class ModeloInventario extends Conexion{
         List<Inventario> lista_inventarios = new ArrayList<>();
         try {
             Statement statement = this.c.getConexion().createStatement();
-            ResultSet rs = statement.executeQuery("select * from invetarios");
+            ResultSet rs = statement.executeQuery("select i.*, m.material, t.Tecnica from inventarios i join materiales m on i.IdMaterial = m.IdMaterial join tecnicas t on i.IdTecnica = t.IdTecnica");
             while (rs.next()) {
                 Inventario inventario = new Inventario();
                 inventario.setIdInventario(rs.getInt("IdInventario"));
@@ -99,27 +120,30 @@ public class ModeloInventario extends Conexion{
                 inventario.setDescripcion(rs.getString("Descripcion"));
                 inventario.setNombrePieza(rs.getString("NombrePieza"));
                 inventario.setForma(rs.getString("Forma"));
-                inventario.setMaterial(rs.getString("Material"));
-                inventario.setTecnica(rs.getString("Tecnica"));
+                inventario.setIdMaterial(rs.getInt("IdMaterial"));
+                inventario.setIdTecnica(rs.getInt("IdTecnica"));
                 inventario.setColor(rs.getString("Color"));
                 inventario.setPeriodo(rs.getString("Periodo"));
                 inventario.setClasificacion(rs.getString("Clasificacion"));
-                inventario.setAlto(rs.getDouble("Alto"));
-                inventario.setAncho(rs.getDouble("Ancho"));
-                inventario.setLargo(rs.getDouble("Largo"));
-                inventario.setDiamtero(rs.getDouble("Diametro"));
-                inventario.setGrosor(rs.getDouble("Grosor"));
-                inventario.setPeso(rs.getDouble("Peso"));
+                inventario.setAlto(rs.getString("Alto"));
+                inventario.setAncho(rs.getString("Ancho"));
+                inventario.setLargo(rs.getString("Largo"));
+                inventario.setDiamtero(rs.getString("Diamtero"));
+                inventario.setGrosor(rs.getString("Grosor"));
+                inventario.setPeso(rs.getString("Peso"));
                 inventario.setProcedencia(rs.getString("Procedencia"));
                 inventario.setCondicion(rs.getString("Condicion"));
                 inventario.setFormaAdquisicion(rs.getString("FormaAdquisicion"));
-                inventario.setFAdquisicion(rs.getString("FAdquisicion"));
+                inventario.setFAdquisicion(rs.getDate("FAdquisicion"));
                 inventario.setRegimen(rs.getString("Regimen"));
                 inventario.setCustodio(rs.getString("Custodio"));
-                inventario.setFInventario(rs.getString("FInventario"));
+                inventario.setFInventario(rs.getDate("FInventario"));
                 inventario.setRealizadoPor(rs.getString("RealizadoPor"));
                 inventario.setActualizadoPor(rs.getString("ActualizadoPor"));
                 inventario.setObservaciones(rs.getString("Observaciones"));
+                inventario.setImagenes(rs.getString("Imagenes"));
+                inventario.setNombre_Material(rs.getString("material"));
+                inventario.setNombre_Tecnica(rs.getString("tecnica"));
                 lista_inventarios.add(inventario);
             }
         } catch (SQLException e) {
@@ -137,32 +161,33 @@ public class ModeloInventario extends Conexion{
             pst.executeQuery();
             ResultSet rs = pst.getResultSet();
             while (rs.next()) {
-                inventario.setIdInventario(rs.getInt("IdPieza"));
+                inventario.setIdInventario(rs.getInt("IdInventario"));
                 inventario.setNumInventario(rs.getString("NumInventario"));
                 inventario.setDescripcion(rs.getString("Descripcion"));
                 inventario.setNombrePieza(rs.getString("NombrePieza"));
                 inventario.setForma(rs.getString("Forma"));
-                inventario.setMaterial(rs.getString("Material"));
-                inventario.setTecnica(rs.getString("Tecnica"));
+                inventario.setIdMaterial(rs.getInt("IdMaterial"));
+                inventario.setIdTecnica(rs.getInt("IdTecnica"));
                 inventario.setColor(rs.getString("Color"));
                 inventario.setPeriodo(rs.getString("Periodo"));
                 inventario.setClasificacion(rs.getString("Clasificacion"));
-                inventario.setAlto(rs.getDouble("Alto"));
-                inventario.setAncho(rs.getDouble("Ancho"));
-                inventario.setLargo(rs.getDouble("Largo"));
-                inventario.setDiamtero(rs.getDouble("Diametro"));
-                inventario.setGrosor(rs.getDouble("Grosor"));
-                inventario.setPeso(rs.getDouble("Peso"));
+                inventario.setAlto(rs.getString("Alto"));
+                inventario.setAncho(rs.getString("Ancho"));
+                inventario.setLargo(rs.getString("Largo"));
+                inventario.setDiamtero(rs.getString("Diamtero"));
+                inventario.setGrosor(rs.getString("Grosor"));
+                inventario.setPeso(rs.getString("Peso"));
                 inventario.setProcedencia(rs.getString("Procedencia"));
                 inventario.setCondicion(rs.getString("Condicion"));
                 inventario.setFormaAdquisicion(rs.getString("FormaAdquisicion"));
-                inventario.setFAdquisicion(rs.getString("FAdquisicion"));
+                inventario.setFAdquisicion(rs.getDate("FAdquisicion"));
                 inventario.setRegimen(rs.getString("Regimen"));
                 inventario.setCustodio(rs.getString("Custodio"));
-                inventario.setFInventario(rs.getString("FInventario"));
+                inventario.setFInventario(rs.getDate("FInventario"));
                 inventario.setRealizadoPor(rs.getString("RealizadoPor"));
                 inventario.setActualizadoPor(rs.getString("ActualizadoPor"));
                 inventario.setObservaciones(rs.getString("Observaciones"));
+                inventario.setImagenes(rs.getString("Imagenes"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -175,35 +200,36 @@ public class ModeloInventario extends Conexion{
      boolean resultado = false;
         PreparedStatement pst1= null;
         try{
-            String sql = "update inventarios set NumInventario = ?,  Descripcion = ? , NombrePieza = ?, Forma = ?, Material = ?, Tecnica = ?, Color = ?, Periodo = ?, Clasificacion  = ?, Alto = ?, Ancho = ?, Largo = ?, Diamtero = ?, Grosor = ?, Peso = ?, Procedencia = ?, Condicion = ?, FormaAdquisicion = ?, FAdquisicion = ?, Regimen = ?, Custodio = ?, FInventario = ?, RealizadoPor = ?, ActualizadoPor = ?, Observaciones = ? where IdPieza = ?";
+            String sql = "update inventarios set NumInventario = ?,  Descripcion = ? , NombrePieza = ?, Forma = ?, IdMaterial = ?, IdTecnica = ?, Color = ?, Periodo = ?, Clasificacion  = ?, Alto = ?, Ancho = ?, Largo = ?, Diamtero = ?, Grosor = ?, Peso = ?, Procedencia = ?, Condicion = ?, FormaAdquisicion = ?, FAdquisicion = ?, Regimen = ?, Custodio = ?, FInventario = ?, RealizadoPor = ?, ActualizadoPor = ?, Observaciones = ?, Imagenes = ? where IdInventario = ?";
             pst1 = getConexion().prepareStatement(sql);
             pst1.setString(1, i.getNumInventario());
             pst1.setString(2, i.getDescripcion());
             pst1.setString(3, i.getNombrePieza());
             pst1.setString(4, i.getForma());
-            pst1.setString(5, i.getMaterial());
-            pst1.setString(6, i.getTecnica());
+            pst1.setInt(5, i.getIdMaterial());
+            pst1.setInt(6, i.getIdTecnica());
             pst1.setString(7, i.getColor());
             pst1.setString(8, i.getPeriodo());
             pst1.setString(9, i.getClasificacion());
-            pst1.setDouble(10, i.getAlto());
-            pst1.setDouble(11, i.getAncho());
-            pst1.setDouble(12, i.getLargo());
-            pst1.setDouble(13, i.getDiamtero());
-            pst1.setDouble(14, i.getGrosor());
-            pst1.setDouble(15, i.getPeso());
+            pst1.setString(10, i.getAlto());
+            pst1.setString(11, i.getAncho());
+            pst1.setString(12, i.getLargo());
+            pst1.setString(13, i.getDiamtero());
+            pst1.setString(14, i.getGrosor());
+            pst1.setString(15, i.getPeso());
             pst1.setString(16, i.getProcedencia());
             pst1.setString(17, i.getCondicion());
             pst1.setString(18, i.getFormaAdquisicion());
-            pst1.setString(19, i.getFAdquisicion());
+            pst1.setDate(19, new java.sql.Date(i.getFAdquisicion().getTime()));
             pst1.setString(20, i.getRegimen());
             pst1.setString(21, i.getCustodio()); 
-            pst1.setString(22, i.getFInventario());                      
+            pst1.setDate(22,new java.sql.Date(i.getFInventario().getTime()));                      
             pst1.setString(23, i.getRealizadoPor());
             pst1.setString(24, i.getActualizadoPor());
             pst1.setString(25, i.getObservaciones());
-            pst1.setInt(26, i.getIdInventario());
-            if(pst1.executeUpdate() >= 1){
+            pst1.setString(26, i.getImagenes());
+            pst1.setInt(27, i.getIdInventario());
+                if(pst1.executeUpdate() >= 1){
                 resultado = true;
                 this.error = "No error";
             }else{
@@ -211,7 +237,7 @@ public class ModeloInventario extends Conexion{
                 resultado = false;
             }
         }catch (Exception e) {
-            this.error = e.getMessage();
+            this.error = e.getMessage() + "asd" ;
              System.err.println(e.getMessage());
         }finally{
             try {

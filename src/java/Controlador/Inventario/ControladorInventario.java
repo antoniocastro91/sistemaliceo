@@ -16,12 +16,16 @@ import java.util.List;
  *
  * @author Antonio Castro
  */
-public class ControladorInventario {
+public class ControladorInventario  {
      ModeloInventario mi = new ModeloInventario();
      public String error = "";
+     public int ultimo_id_insertado = -1;
      public boolean insertar(Inventario i){
         ModeloInventario mi = new ModeloInventario();
-        return mi.insertarinventario(i);
+        boolean result = mi.insertarinventario(i);
+        this.error = mi.error;
+        this.ultimo_id_insertado = mi.ultimo_id_insertado;
+        return result;
         }
       public List<Inventario> listar(){
             List<Inventario> lista_fichas = new ArrayList<>();

@@ -2,15 +2,24 @@
 <%@page import="Controlador.Usuario.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% 
-
+    HttpSession sesion = request.getSession(true);
+    String usu = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();
+    String url = response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/login.jsp");
+    if(usu == ""){
+        response.sendRedirect(url);
+        return;
+    }
+    Object nivel = sesion.getAttribute("nivel") == null ? null : sesion.getAttribute("nivel");
+    if (Integer.parseInt(nivel.toString()) != 1){
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
+    }
     ControladorUsuario controladorUsuario = new ControladorUsuario();
     Usuario usuario = new Usuario();
     usuario = controladorUsuario.getUsuario(Integer.parseInt(request.getParameter("id_usuario").toString()));
-
 %>
 <jsp:include page="../common/header.jsp"/>
 <div class="row main">
-                <div class="main-login main-center">
+                <div class="main-usuario main-center-usuario">
                     <form class="" method="post" id="frm-registousuario" action="usuario_Modificar">
                          <h3 align="center">Formulario para la edicion de Usuarios.</h3>
                          <input type="hidden" name="id" id="id" value="<%= usuario.getId_usuario() %>"/>

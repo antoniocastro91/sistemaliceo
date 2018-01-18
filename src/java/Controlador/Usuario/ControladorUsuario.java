@@ -45,6 +45,11 @@ public class ControladorUsuario {
         lista_usuarios = this.mu.listar_usuarios();
         return lista_usuarios;
     }
+   public List<Usuario> listarusu_repo(String nombre,String tipoBuscar){
+        List<Usuario> lista_usuarios = new ArrayList<Usuario>();
+        lista_usuarios = this.mu.listar_usuariosrepor(nombre, tipoBuscar);
+        return lista_usuarios;
+    }
     public String getViewUser(Usuario u){
          String htmlcode = "";
          htmlcode += "<b> <p> Bienvenido "+ u.getUsuario() + "</b></p>" +"<a href='CerrarSesion'> Cerrar Sesion</a> ";

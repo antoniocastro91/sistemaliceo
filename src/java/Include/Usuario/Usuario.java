@@ -18,6 +18,15 @@ public class Usuario {
     private Integer nivel=1;
     private String usuariocreacion;
     private String fechacreacion;
+    private String nombre_nivel;
+
+    public String getNombre_nivel() {
+        return nombre_nivel;
+    }
+
+    public void setNombre_nivel(String nombre_nivel) {
+        this.nombre_nivel = nombre_nivel;
+    }
 
     public Integer getId_usuario() {
         return id_usuario;

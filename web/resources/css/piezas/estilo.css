@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12-ene-2018, 21:04:34
+    Author     : Antonio Castro
+*/
+body{
+    background-color: #f3f3f3;
+}
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    padding:10px;
+    background-color: white;
+    margin-top:15px;
+    height: 385px;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.card > img{
+    max-width: 100%;
+}               
+.contenido > h1,h3{
+    margin-top: 10px;
+    text-align: center;
+    
+}
+.contenido > h1{
+    font-size: 20px;
+    font-weight: bold;
+}
+.contenido > h3{
+    font-size: 15px;
+    color:red;
+}
+.contenido > p{
+    text-align: justify;
+}
+
+.card-footer{
+    background-color: #5bc0de;
+}

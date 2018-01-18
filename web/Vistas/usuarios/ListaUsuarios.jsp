@@ -1,12 +1,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.List"%>
-<jsp:include page="../common/header.jsp"/>
+
 <%@page import="Include.Usuario.Usuario"%>
 <%@page import="Controlador.Usuario.ControladorUsuario"%>
 <% 
+    HttpSession sesion = request.getSession(true);
+    String usuario = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();
+    String url = response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/login.jsp");
+    if(usuario == ""){
+        response.sendRedirect(url);
+        return;
+    }
+    Object nivel = sesion.getAttribute("nivel") == null ? null : sesion.getAttribute("nivel");
+    if (Integer.parseInt(nivel.toString()) != 1){
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
+    }
     ControladorUsuario controladorUsuario = new ControladorUsuario();
     List<Usuario> lista_usuarios = controladorUsuario.listar();
 %>
+<jsp:include page="../common/header.jsp"/>
 <div class ="container">
     <div class="row">
         <div class="col-xs-12">
@@ -26,7 +38,7 @@
                     %>
                     <tr>
                         <td><%=lista_usuarios.get(i).getUsuario()%></td>
-                        <td><%=lista_usuarios.get(i).getNivel()%></td>
+                        <td> <%= lista_usuarios.get(i).getNombre_nivel()  %></td>
                         <td>
                             <% if(lista_usuarios.get(i).getEstado() == 1) {%>
                                 Activo
@@ -63,5 +75,6 @@
                                 txt = "You pressed Cancel!";
                             }
                         }
+                        
                     </script>
 <jsp:include page="../common/footer.jsp"/>

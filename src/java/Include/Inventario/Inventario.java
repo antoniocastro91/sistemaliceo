@@ -12,43 +12,71 @@ import java.util.Date;
  * @author Antonio Castro
  */
 public class Inventario {
-    private Integer IdInventario;
+    private Integer IdInventario=1;
     private String NumInventario;
     private String Descripcion;
     private String NombrePieza;
     private String Forma;
-    private String Material;
-    private String Tecnica;
+    private Integer IdMaterial=1;
+    private Integer IdTecnica=1;
     private String Color;
     private String Periodo;
     private String Clasificacion;
-    private Double Alto;
-    private Double Ancho;
-    private Double Largo;
-    private Double Diamtero;
-    private Double Grosor;
-    private Double Peso;
+    private String Alto;
+    private String Ancho;
+    private String Largo;
+    private String Diamtero;
+    private String Grosor;
+    private String Peso;
     private String Procedencia;
     private String Condicion;
     private String FormaAdquisicion;
-    private String FAdquisicion;
+    private Date FAdquisicion;
     private String Regimen;
     private String Custodio;
-    private String FInventario;
+    private Date FInventario;
     private String RealizadoPor;
     private String ActualizadoPor;
-    private String Observaciones;     
+    private String Observaciones;    
+    private String Imagenes;
+    private String Nombre_Material;
+    private String Nombre_Tecnica;
+
+    public String getNombre_Material() {
+        return Nombre_Material;
+    }
+
+    public void setNombre_Material(String Nombre_Material) {
+        this.Nombre_Material = Nombre_Material;
+    }
+
+    public String getNombre_Tecnica() {
+        return Nombre_Tecnica;
+    }
+
+    public void setNombre_Tecnica(String Nombre_Tecnica) {
+        this.Nombre_Tecnica = Nombre_Tecnica;
+    }
+    
+    
+
+    public String getImagenes() {
+        return Imagenes;
+    }
+    public void setImagenes(String Imagenes) {
+        this.Imagenes = Imagenes;
+    }
 
     public Inventario(){}
     
-    public Inventario( Integer idinventario, String numinventario,String descripcion, String nombrepieza,String forma,String material,String tecnica,String color,String periodo, String clasificacion, Double alto, Double ancho, Double largo, Double diametro, Double grosor, Double peso, String procedencia, String condicion, String formaadquisicion, String fadquisicion, String regimen, String custodio, String finventario, String realizadopor, String actualizadopor, String observaciones){
+    public Inventario( Integer idinventario, String numinventario,String descripcion, String nombrepieza,String forma,Integer idmaterial,Integer idtecnica,String color,String periodo, String clasificacion, String alto, String ancho, String largo, String diametro, String grosor, String peso, String procedencia, String condicion, String formaadquisicion, Date fadquisicion, String regimen, String custodio, Date finventario, String realizadopor, String actualizadopor, String observaciones){
     this.IdInventario= idinventario;
     this.NumInventario=numinventario;
     this.Descripcion=descripcion;
     this.NombrePieza=nombrepieza;
     this.Forma=forma;
-    this.Material=material;
-    this.Tecnica=tecnica;
+    this.IdMaterial=idmaterial;
+    this.IdTecnica=idtecnica;
     this.Color=color;
     this.Periodo=periodo;
     this.Clasificacion=clasificacion;
@@ -69,14 +97,17 @@ public class Inventario {
     this.ActualizadoPor=actualizadopor;
     this.Observaciones=observaciones;
     }
-        public Inventario(String numinventario,String descripcion, String nombrepieza,String forma,String material,String tecnica,String color,String periodo, String clasificacion, Double alto, Double ancho, Double largo, Double diametro, Double grosor, Double peso, String procedencia, String condicion, String formaadquisicion, String fadquisicion, String regimen, String custodio, String finventario, String realizadopor, String actualizadopor, String observaciones){
+        public Inventario(String numinventario,String descripcion, String nombrepieza,String forma,Integer idmaterial,Integer idtecnica,
+                            String color,String periodo, String clasificacion, String alto, String ancho, String largo, String diametro,
+                            String grosor, String peso, String procedencia, String condicion, String formaadquisicion, Date fadquisicion,
+                            String regimen, String custodio, Date finventario, String realizadopor, String actualizadopor, String observaciones){
     
     this.NumInventario=numinventario;
     this.Descripcion=descripcion;
     this.NombrePieza=nombrepieza;
     this.Forma=forma;
-    this.Material=material;
-    this.Tecnica=tecnica;
+    this.IdMaterial=idmaterial;
+    this.IdTecnica=idtecnica;
     this.Color=color;
     this.Periodo=periodo;
     this.Clasificacion=clasificacion;
@@ -97,6 +128,36 @@ public class Inventario {
     this.ActualizadoPor=actualizadopor;
     this.Observaciones=observaciones;
     }
+    public Inventario(String numinventario,String descripcion, String nombrepieza,String forma,Integer idmaterial,Integer idtecnica,
+                       String color,String periodo, String clasificacion, String alto, String ancho, String largo, String diametro,
+                       String grosor, String peso, String procedencia, String condicion, String formaadquisicion, Date fadquisicion, 
+                       String regimen, String custodio, Date finventario, String realizadopor, String observaciones){
+    
+    this.NumInventario=numinventario;
+    this.Descripcion=descripcion;
+    this.NombrePieza=nombrepieza;
+    this.Forma=forma;
+    this.IdMaterial=idmaterial;
+    this.IdTecnica=idtecnica;
+    this.Color=color;
+    this.Periodo=periodo;
+    this.Clasificacion=clasificacion;
+    this.Alto=alto;
+    this.Ancho=ancho;
+    this.Largo=largo;
+    this.Diamtero=diametro;
+    this.Grosor=grosor;
+    this.Peso=peso;
+    this.Procedencia=procedencia;
+    this.Condicion=condicion;
+    this.FormaAdquisicion=formaadquisicion;
+    this.FAdquisicion=fadquisicion;
+    this.Regimen=regimen;
+    this.Custodio=custodio;
+    this.FInventario=finventario;
+    this.RealizadoPor=realizadopor;
+    this.Observaciones=observaciones;
+    }    
     public Integer getIdInventario() {
         return IdInventario;
     }
@@ -137,20 +198,20 @@ public class Inventario {
         this.Forma = Forma;
     }
 
-    public String getMaterial() {
-        return Material;
+    public Integer getIdMaterial() {
+        return IdMaterial;
     }
 
-    public void setMaterial(String Material) {
-        this.Material = Material;
+    public void setIdMaterial(Integer IdMaterial) {
+        this.IdMaterial = IdMaterial;
     }
 
-    public String getTecnica() {
-        return Tecnica;
+    public Integer getIdTecnica() {
+        return IdTecnica;
     }
 
-    public void setTecnica(String Tecnica) {
-        this.Tecnica = Tecnica;
+    public void setIdTecnica(Integer IdTecnica) {
+        this.IdTecnica = IdTecnica;
     }
 
     public String getColor() {
@@ -177,53 +238,55 @@ public class Inventario {
         this.Clasificacion = Clasificacion;
     }
 
-    public Double getAlto() {
+    public String getAlto() {
         return Alto;
     }
 
-    public void setAlto(Double Alto) {
+    public void setAlto(String Alto) {
         this.Alto = Alto;
     }
 
-    public Double getAncho() {
+    public String getAncho() {
         return Ancho;
     }
 
-    public void setAncho(Double Ancho) {
+    public void setAncho(String Ancho) {
         this.Ancho = Ancho;
     }
 
-    public Double getLargo() {
+    public String getLargo() {
         return Largo;
     }
 
-    public void setLargo(Double Largo) {
+    public void setLargo(String Largo) {
         this.Largo = Largo;
     }
 
-    public Double getDiamtero() {
+    public String getDiamtero() {
         return Diamtero;
     }
 
-    public void setDiamtero(Double Diamtero) {
+    public void setDiamtero(String Diamtero) {
         this.Diamtero = Diamtero;
     }
 
-    public Double getGrosor() {
+    public String getGrosor() {
         return Grosor;
     }
 
-    public void setGrosor(Double Grosor) {
+    public void setGrosor(String Grosor) {
         this.Grosor = Grosor;
     }
 
-    public Double getPeso() {
+    public String getPeso() {
         return Peso;
     }
 
-    public void setPeso(Double Peso) {
+    public void setPeso(String Peso) {
         this.Peso = Peso;
     }
+
+
 
     public String getProcedencia() {
         return Procedencia;
@@ -249,11 +312,11 @@ public class Inventario {
         this.FormaAdquisicion = FormaAdquisicion;
     }
 
-    public String getFAdquisicion() {
+    public Date getFAdquisicion() {
         return FAdquisicion;
     }
 
-    public void setFAdquisicion(String FAdquisicion) {
+    public void setFAdquisicion(Date FAdquisicion) {
         this.FAdquisicion = FAdquisicion;
     }
 
@@ -273,11 +336,11 @@ public class Inventario {
         this.Custodio = Custodio;
     }
 
-    public String getFInventario() {
+    public Date getFInventario() {
         return FInventario;
     }
 
-    public void setFInventario(String FInventario) {
+    public void setFInventario(Date FInventario) {
         this.FInventario = FInventario;
     }
 

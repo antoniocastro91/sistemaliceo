@@ -5,7 +5,8 @@
  */
 package Servlet.Piezas;
 
-import Controlador.Ficha.ControladorFicha;
+
+import Controlador.Inventario.ControladorInventario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,14 +36,15 @@ public class EliminarPiezas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            Controlador.Ficha.ControladorFicha controladorFicha = new ControladorFicha();
+             ControladorInventario  ci= new ControladorInventario();
+          
             String id = request.getParameter("id");
             
-            if(controladorFicha.eliminar(Integer.parseInt(id))){
+            if(ci.eliminar(Integer.parseInt(id))){
                 out.print("ok");
             }else{
                 out.println("error");
-                out.println(controladorFicha.error);
+                out.println(ci.error);
             }
         }
     }

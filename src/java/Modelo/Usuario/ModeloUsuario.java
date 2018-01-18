@@ -106,7 +106,7 @@ public class ModeloUsuario extends Conexion {
      List<Usuario> lista_usuarios = new ArrayList<>();
         try {
             Statement statement = this.c.getConexion().createStatement();
-            ResultSet rs = statement.executeQuery("select * from usuario");
+            ResultSet rs = statement.executeQuery("select u.*, r.nombre from usuario u join rol r on u.nivel = r.id");
             while (rs.next()) {
                 
                 Usuario usuario = new Usuario();
@@ -115,6 +115,7 @@ public class ModeloUsuario extends Conexion {
                 usuario.setNivel(rs.getInt("nivel"));
                 usuario.setEstado(rs.getInt("estado"));
                 usuario.setEmail(rs.getString("email"));               
+                usuario.setNombre_nivel(rs.getString("nombre"));               
                 lista_usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -122,6 +123,39 @@ public class ModeloUsuario extends Conexion {
         }
 
         return lista_usuarios;      
+    }
+        public List<Usuario>listar_usuariosrepor(String nombres,String tipoBuscar){
+          
+            Conexion cn = null;
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String sql ="";
+            try {
+             
+               this.c.getConexion();
+                sql = "select * from usuario where usuario like ? or nivel like ? or estado like ? order by usuario asc";
+
+            ps = getConexion().prepareStatement(sql);
+            ps.setString(1, nombres.concat("%"));
+            ps.setString(2, nombres.concat("%"));
+            ps.setString(3, nombres.concat("%"));
+            rs = ps.executeQuery();
+            List<Usuario> lista = new ArrayList<Usuario>();
+            Usuario u = null;
+            while (rs.next()) {
+                u = new Usuario();
+                u.setId_usuario(rs.getInt("id"));
+                u.setUsuario(rs.getString("usuario"));
+                u.setNivel(rs.getInt("nivel"));
+                u.setEstado(rs.getInt("estado"));
+                u.setEmail(rs.getString("email"));               
+                lista.add(u);
+            } 
+            return lista;
+            }catch (Exception e) {
+             this.error = e.getMessage();
+             System.err.println(e.getMessage());   
+            }return null;
     }
     
     public boolean actualizar (Usuario u){
