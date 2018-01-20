@@ -17,6 +17,15 @@ public class Inventario {
     private String Descripcion;
     private String NombrePieza;
     private String Forma;
+    private String Material;
+
+    public String getMaterial() {
+        return Material;
+    }
+
+    public void setMaterial(String Material) {
+        this.Material = Material;
+    }
     private Integer IdMaterial=1;
     private Integer IdTecnica=1;
     private String Color;

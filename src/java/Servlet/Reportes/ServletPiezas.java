@@ -61,7 +61,14 @@ public class ServletPiezas extends HttpServlet {
                 Class.forName("com.mysql.jdbc.Driver");
                 con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemmuna", "root", "root");
                 st = con.createStatement();
-                rs = st.executeQuery("select i.IdInventario, i.NumInventario,i.Descripcion,i.NombrePieza,i.Forma,i.Color, i.Periodo,i.Imagenes , m.material, t.Tecnica, i.Alto,i.Diamtero,i.Ancho,i.Grosor,i.Largo,i.Peso,i.Procedencia, i.Condicion,i.FormaAdquisicion,i.FAdquisicion,i.Regimen,i.Custodio,i.FInventario,i.RealizadoPor,i.Observaciones  from inventarios i join materiales m on i.IdMaterial = m.IdMaterial join tecnicas t on i.IdTecnica = t.IdTecnica where NombrePieza = '" + nombrepieza + "'");
+                rs = st.executeQuery("select i.IdInventario, i.NumInventario,i.Descripcion,"
+                        + "i.NombrePieza,i.Forma,i.Color, i.Periodo,i.Imagenes , m.material, t.Tecnica, "
+                        + "i.Alto,i.Diamtero,i.Ancho,i.Grosor,i.Largo,i.Peso,i.Procedencia, i.Condicion,"
+                        + "i.FormaAdquisicion,i.FAdquisicion,i.Regimen,i.Custodio,i.FInventario,i.RealizadoPor,"
+                        + "i.Observaciones  "
+                        + "from inventarios i "
+                        + "join materiales m on i.IdMaterial = m.IdMaterial "
+                        + "join tecnicas t on i.IdTecnica = t.IdTecnica where NombrePieza = '" + nombrepieza + "' or NumInventario like '%"+nombrepieza+"%' or i.Imagenes like '%"+ nombrepieza+"%.jpg' or i.Imagenes like '%"+ nombrepieza+"%.png'");
                      
                  
                 if (con != null){
@@ -131,6 +138,39 @@ public class ServletPiezas extends HttpServlet {
                 PdfPCell bordes2 = new PdfPCell();
 
                 while(rs.next()){
+                    tablaimagenes= new PdfPTable(4);
+                    tablanompro = new PdfPTable(2);
+                    bordes= new PdfPCell();
+                    bordes2= new PdfPCell();
+                
+                    numinv = new Paragraph();
+                descripcion = new Paragraph();
+                 detalles = new Paragraph();
+                 med = new Paragraph();
+                 medespacio = new Paragraph();
+                
+                     nompieza = new Paragraph();
+                 forma = new Paragraph();
+                 material = new Paragraph();
+                 tecnica = new Paragraph();
+                 color = new Paragraph();
+                 periodo = new Paragraph();
+                 alto = new Paragraph();
+                 diametro = new Paragraph();
+                 ancho = new Paragraph();
+                 grosor = new Paragraph();
+                 largo = new Paragraph();
+                 peso = new Paragraph();
+                 procedencia = new Paragraph();
+                 estado = new Paragraph();
+                 formaadquisi = new Paragraph();
+                 fechaadquisi = new Paragraph();
+                 regimen = new Paragraph();
+                 custodio = new Paragraph();
+                 fechainv = new Paragraph();
+                 realizadopor = new Paragraph();
+                 observaciones = new Paragraph();
+                
                  numinv.add(new Phrase("Num Inventario: ",fondescripgral));
                  numinv.setAlignment(Element.ALIGN_CENTER);
                  numinv.add(new Phrase(rs.getString(2),fondescrip));
@@ -142,7 +182,7 @@ public class ServletPiezas extends HttpServlet {
                      for (String imagen : imagenes) {
                          ruta = null;
                         if (imagen.length()>0) {
-                            ruta = request.getServletContext().getRealPath("resources/imagenes/" + rs.getString(1)+"/" + imagen);
+                            ruta = request.getServletContext().getRealPath("Imagenes/" + rs.getString(1)+"/" + imagen);
                         }
                         if(ruta!=null){
                             ruta = ruta.replace("\\", "\\\\");
@@ -247,10 +287,7 @@ public class ServletPiezas extends HttpServlet {
             
                  tablanompro.addCell(bordes).setBorder(0);
                  tablanompro.addCell(bordes2).setBorder(0);
-                
-                }
-              
-                documento.add(numinv);
+                 documento.add(numinv);
                 documento.add(nuevalinea);
                 documento.add(descripcion);
                 documento.add(nuevalinea);
@@ -263,6 +300,21 @@ public class ServletPiezas extends HttpServlet {
                 documento.add(nuevalinea);
                 documento.add(nuevalinea);
                 documento.add(tablaimagenes);
+                }
+              
+                /*documento.add(numinv);
+                documento.add(nuevalinea);
+                documento.add(descripcion);
+                documento.add(nuevalinea);
+                //documento.add(detalles);
+                documento.add(tablanompro);
+                documento.add(nuevalinea);
+                
+                documento.add(nuevalinea);
+                documento.add(observaciones);
+                documento.add(nuevalinea);
+                documento.add(nuevalinea);
+                documento.add(tablaimagenes);*/
              
                
                 documento.close();

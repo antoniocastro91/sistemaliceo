@@ -155,7 +155,7 @@ public class ModeloInventario extends Conexion{
      Inventario inventario = new Inventario();
      PreparedStatement pst = null;
         try {
-            String sql="select * from inventarios where IdInventario = ?";
+            String sql="select i.*, m.Material from inventarios i join Materiales m on m.IdMaterial = i.IdMaterial  where IdInventario = ?";
             pst = getConexion().prepareStatement(sql);
             pst.setInt(1, id_inventario);
             pst.executeQuery();
@@ -166,6 +166,7 @@ public class ModeloInventario extends Conexion{
                 inventario.setDescripcion(rs.getString("Descripcion"));
                 inventario.setNombrePieza(rs.getString("NombrePieza"));
                 inventario.setForma(rs.getString("Forma"));
+                inventario.setMaterial(rs.getString("Material"));
                 inventario.setIdMaterial(rs.getInt("IdMaterial"));
                 inventario.setIdTecnica(rs.getInt("IdTecnica"));
                 inventario.setColor(rs.getString("Color"));

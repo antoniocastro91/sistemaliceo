@@ -12,35 +12,6 @@ import java.util.List;
 public class ModeloUsuario extends Conexion {
     private Conexion c = new Conexion();
     public String error = "";
-    public boolean crearUsuario(Usuario u){
-        boolean flag =false;
-        PreparedStatement pst = null;
-        try {
-            String sql="call nUsuario(?,?,?,?,?,?,?)";
-            pst = getConexion().prepareStatement(sql);
-            pst.setString(1, u.getUsuario());
-            pst.setString(2, u.getClave());
-            pst.setString(3, u.getEmail());
-            pst.setInt(4, u.getEstado());
-            pst.setInt(5, u.getNivel()); 
-            pst.setString(6, u.getUsuariocreacion());
-            pst.setString(7, u.getFechacreacion());
-            
-            if(pst.executeUpdate() == 1){
-            flag = true;
-             }
-        } catch (Exception e) {
-             System.err.println(e.getMessage());
-        }finally{
-            try {
-                if(getConexion() != null) getConexion().close();
-                if(pst != null) pst.close();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-        }
-    return flag;
-    }
     
     public boolean Autenticar(Usuario u){
         boolean flag = false;
@@ -72,7 +43,7 @@ public class ModeloUsuario extends Conexion {
     boolean flag = false;
     PreparedStatement pst= null;
     try{
-            String sql="insert into usuario (usuario,clave,email,estado,nivel,usuariocreacion, fechacreacion) values (?,?,?,?,?,?,?)";
+            String sql="insert into usuario (usuario,clave,email,estado,nivel,usuariocreacion, fechacreacion) values (?,Md5(?),?,?,?,?,?)";
             pst = getConexion().prepareStatement(sql);
       
             pst.setString(1, u.getUsuario());
@@ -172,7 +143,7 @@ public class ModeloUsuario extends Conexion {
                 pst.setInt(4, u.getEstado());
                 pst.setInt(5, u.getId_usuario());
             }else{
-                sql = "update usuario set nivel = ?, usuario = ? ,email = ?, clave = ?, estado = ? where id = ?";
+                sql = "update usuario set nivel = ?, usuario = ? ,email = ?, clave = Md5(?), estado = ? where id = ?";
                 pst = getConexion().prepareStatement(sql);
                 pst.setInt(1, u.getNivel());
                 pst.setString(2, u.getUsuario());

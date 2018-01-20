@@ -54,7 +54,7 @@ public class Conexion {
         PreparedStatement pst;
         ResultSet rs;
         int a =0;   
-        String sql ="select nivel from usuario u, rol r where usuario='" + usuario +"' and clave='"+ clave+"' and u.estado=1 and u.estado = r.estado"; 
+        String sql ="select nivel from usuario u, rol r where usuario='" + usuario +"' and clave= Md5("+ clave+") and u.estado=1 and u.estado = r.estado"; 
         try {
             Class.forName(this.CLASSNAME);
             co=DriverManager.getConnection(

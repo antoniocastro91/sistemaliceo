@@ -253,7 +253,7 @@
                                        <div class="form-group col-md-3">
                                            <input type="file" id="files_<%= ++i%>" name="files_<%= i%>" />
                                              <br />
-                                             <output id="list_<%= i%>"><img class="img img-rounded img-responsive" src="resources/imagenes/<%= ficha.getIdInventario() + "/" + imagen%>" width="250px"/></output>
+                                             <output id="list_<%= i%>"><img class="img img-rounded img-responsive" src="Imagenes/<%= ficha.getIdInventario() + "/" + imagen%>" width="250px"/></output>
                                        </div> 
                                        <% 
                                            }

@@ -33,8 +33,9 @@
          <link rel="stylesheet" href="resources/css/RegistrarUsuario.css">
           <link rel="stylesheet" href="resources/css/RegistrarInventario.css">
           <link rel="stylesheet" href="resources/css/piezas/estilo.css">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
-         <style>
+          <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
+         <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
+          <style>
 		.carousel-inner > .item > img,
 		.carousel-inner > .item > a > img {
 			height: 400px;
@@ -45,15 +46,14 @@
          
          <link rel="icon" href="resources/imagenes/iconos/icono-menu.png" >
           <!-- JavaScript -->
-          <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
- 
-          <script type="text/javascript" src="resources/javascript/jquery-3.2.1.js"></script>
-         <script type="text/javascript" src="resources/javascript/bootstrap.min.js" ></script>
+          
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.js"></script>
+         <script type="text/javascript" src="resources/javascript/bootstrap.js" ></script>
          <script type="text/javascript" src="resources/javascript/jquery.validate.min.js"></script>
          <script type="text/javascript" src="resources/javascript/main.js"></script>
          <script type="text/javascript" src="resources/javascript/validaciones.js"></script>
          <script src="resources/javascript/BuscadorTabla.js" type="text/javascript"></script>
-         <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.js"></script>
+         
 
         <script type="text/javascript" src="resources/js/moment.js"></script>
         <script type="text/javascript" src="resources/js/bootstrap-datetimepicker.js"></script>
@@ -92,22 +92,20 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav">
                     <%
                         if (user.getNivel() != 3 ) { %>
-                <ul class="nav navbar-nav">
-
                  <li class="dropdown">
                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="glyphicon glyphicon-folder-open"> Piezas </i><span class="caret"></span></a>
                    <ul class="dropdown-menu">
                        <li><a href="Vistas/piezas/lista.jsp"><i class="glyphicon glyphicon-search"> Consultar </i></a></li>
                        <li><a href="Vistas/piezas/RegistrarInventario.jsp"><i class="glyphicon glyphicon-plus"> Ingresar </i></a></li>
-                    
                    </ul>
                  </li>
                  <% 
                      if(user != null){
                        if (user.getNivel() == 1){ %>
-                     
                    <li class="dropdown">
                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"> Usuarios </i> <span class="caret"></span></a>
                      <ul class="dropdown-menu">
@@ -122,12 +120,13 @@
                           <li><a href="Vistas/reportes/ReportesUsuarios.jsp"><i class="glyphicon glyphicon-user" > Reporte de Usuarios</i></a></li>
                       </ul>
                     </li>
-                         <% } 
-               }%>
-                  </ul>
-               <%
-                    }%>        
-                     
+               <% } %>
+                     <%   }}else{ %>
+                           <li><a href="Vistas/piezas/lista_imagenes.jsp"><i class="glyphicon glyphicon-search" > Consultar Piezas</i></a></li>
+                       <% }%>
+                 
+                </ul>
+    
                   <ul class="nav navbar-nav navbar-right pull-right">
                      <%  if(user != null){ %>
                      <%=  cu.getViewUser(user)%>

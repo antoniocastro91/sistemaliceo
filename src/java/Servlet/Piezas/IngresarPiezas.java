@@ -50,7 +50,7 @@ public class IngresarPiezas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            this.UPLOAD_DIRECTORY = this.getServletContext().getRealPath("resources/imagenes");
+            this.UPLOAD_DIRECTORY = this.getServletContext().getRealPath("Imagenes");
             Inventario inv = new Inventario();
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             for (FileItem item : items) {

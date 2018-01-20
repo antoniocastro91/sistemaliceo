@@ -9,10 +9,6 @@ public class ControladorUsuario {
     ModeloUsuario mu = new ModeloUsuario();
     public String error = ""        ;
     
-    public boolean crear(Usuario u){
-        ModeloUsuario mu = new ModeloUsuario();
-        return mu.crearUsuario(u);
-    }
     public boolean validar(Usuario u){
         ModeloUsuario mu = new ModeloUsuario();
         return mu.Autenticar(u);

@@ -28,7 +28,7 @@ $(function()
                             window.location = "Vistas/Principal/principal.jsp"; 
                             break;
                         case 'lista_imagenes':
-                            window.location = "Vistas/piezas/lista_imagenes.jsp"; 
+                            window.location = "Vistas/Principal/principal.jsp"; 
                             break;
                     }
                 }else{
