@@ -18,36 +18,29 @@ public class ModeloInventario extends Conexion{
     private Conexion c = new Conexion();
     public String error = "";
     public int ultimo_id_insertado = -1;
-       public boolean insertarinventario(Inventario i){
+    public int inicio= 0;
+    public int total_mostrar = 20;
+
+    public int getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(int inicio) {
+        this.inicio = inicio;
+    }
+
+    public int getTotal_mostrar() {
+        return total_mostrar;
+    }
+
+    public void setTotal_mostrar(int total_mostrar) {
+        this.total_mostrar = total_mostrar;
+    }
+    public boolean insertarinventario(Inventario i){
         boolean flag = false;
          PreparedStatement pst = null;
          PreparedStatement pst1 = null;
-        try{
-            String sql="INSERT INTO `sistemmuna`.`piezas` (`Nombre`, `Forma`, `Material`, `Tecnica`, `Color`, `Periodo`, "
-                          + "`Clasificacion`, `Alto`, `Ancho`, `Largo`, `Diamtero`, `Grosor`, `Peso`, `Procedencia`, `Condicion`, "
-                          + "`FormaAdquisicion`, `FAdquisicion`, `Regimen`, `Custodio`) "
-                          + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            pst = getConexion().prepareStatement(sql);
-            pst.setString(1, i.getNombrePieza());
-            pst.setString(2, i.getForma());
-            pst.setInt(3, i.getIdMaterial());
-            pst.setInt(4, i.getIdTecnica());
-            pst.setString(5, i.getColor());
-            pst.setString(6, i.getPeriodo());
-            pst.setString(7, i.getClasificacion());
-            pst.setString(8, i.getAlto());
-            pst.setString(9, i.getAncho());
-            pst.setString(10, i.getLargo());
-            pst.setString(11, i.getDiamtero());
-            pst.setString(12, i.getGrosor());
-            pst.setString(13, i.getPeso());
-            pst.setString(14, i.getProcedencia());
-            pst.setString(15, i.getCondicion());
-            pst.setString(16, i.getFormaAdquisicion());
-            pst.setDate(17, new java.sql.Date(i.getFAdquisicion().getTime()));
-            pst.setString(18, i.getRegimen());
-            pst.setString(19, i.getCustodio());
-            
+        try{           
             String sql1="INSERT INTO `sistemmuna`.`inventarios` (`NumInventario`,  `Descripcion`, `NombrePieza`, `Forma`, "
                           + "`IdMaterial`, `IdTecnica`, `Color`, `Periodo`, `Clasificacion`, `Alto`, `Ancho`, `Largo`, `Diamtero`, "
                           + "`Grosor`, `Peso`, `Procedencia`, `Condicion`, `FormaAdquisicion`, `FAdquisicion`, `Regimen`, `Custodio`, "
@@ -80,11 +73,11 @@ public class ModeloInventario extends Conexion{
             pst1.setString(24, i.getObservaciones());
             pst1.setString(25, i.getImagenes());
             error = pst1.toString();
-              if(pst.executeUpdate() == 1 && pst1.executeUpdate() == 1 ){
-            flag = true;
-             }
+            if(pst1.executeUpdate() == 1 ){
+                flag = true;
+            }
               
-              try (ResultSet generatedKeys = pst1.getGeneratedKeys()) {
+            try (ResultSet generatedKeys = pst1.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     this.ultimo_id_insertado = generatedKeys.getInt(1);
                 }
@@ -94,7 +87,6 @@ public class ModeloInventario extends Conexion{
             }catch(Exception e){
                 this.error = e.getMessage();
             }
-        
         }catch (Exception e) {
              error += (e.getMessage());
              this.ultimo_id_insertado = -1;
@@ -108,11 +100,35 @@ public class ModeloInventario extends Conexion{
         }
     return flag;
         }
-  public List<Inventario> listar_Inventario() {
+
+    /**
+     *
+     * @param criterio
+     * @return
+     */
+       
+       //TODO obtener el total de registros
+       // definir cuantos registros se muestran
+       //  definir desde que registro se empezaran a mostrar
+    public List<Inventario> listar_Inventario(String[]... criterio) {
         List<Inventario> lista_inventarios = new ArrayList<>();
         try {
             Statement statement = this.c.getConexion().createStatement();
-            ResultSet rs = statement.executeQuery("select i.*, m.material, t.Tecnica from inventarios i join materiales m on i.IdMaterial = m.IdMaterial join tecnicas t on i.IdTecnica = t.IdTecnica");
+            String sql = "";
+            if(criterio.length > 0){
+                sql = "select i.*, m.material, t.Tecnica "
+                        + "from inventarios i "
+                        + "join materiales m on i.IdMaterial = m.IdMaterial "
+                        + "join tecnicas t on i.IdTecnica = t.IdTecnica "
+                        + "where m.IdMaterial = " + criterio[0][0] + " and i.NombrePieza like '%"+ criterio[0][1]+"%'"
+                        + " limit " + this.inicio + ", " + this.total_mostrar;
+
+            }else{
+                sql = "select i.*, m.material, t.Tecnica "
+                        + "from inventarios i "
+                        + "join materiales m on i.IdMaterial = m.IdMaterial join tecnicas t on i.IdTecnica = t.IdTecnica limit " + this.inicio + ", " + this.total_mostrar;
+            }
+            ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 Inventario inventario = new Inventario();
                 inventario.setIdInventario(rs.getInt("IdInventario"));
@@ -150,6 +166,38 @@ public class ModeloInventario extends Conexion{
             e.printStackTrace();
         }
         return lista_inventarios;
+    }
+    
+    public int total_inventarios(){
+        int total = 0;
+        try{
+            Statement statement = this.c.getConexion().createStatement();
+            ResultSet rs = statement.executeQuery("select * from inventarios");
+            
+            while (rs.next()) {
+                total++;
+            }
+        }catch(Exception ex){
+        }
+        return total;
+    }
+    
+    public int total_inventarios(String[] criterio){
+        int total = 0;
+        try{
+            Statement statement = this.c.getConexion().createStatement();
+            ResultSet rs = statement.executeQuery("select i.*, m.material, t.Tecnica "
+                        + "from inventarios i "
+                        + "join materiales m on i.IdMaterial = m.IdMaterial "
+                        + "join tecnicas t on i.IdTecnica = t.IdTecnica "
+                        + "where m.IdMaterial = " + criterio[0] + " and i.NombrePieza like '%"+ criterio[1]+"%'");
+            
+            while (rs.next()) {
+                total++;
+            }
+        }catch(Exception ex){
+        }
+        return total;
     }
      public Inventario obtener_inventario_por_id(int id_inventario){
      Inventario inventario = new Inventario();

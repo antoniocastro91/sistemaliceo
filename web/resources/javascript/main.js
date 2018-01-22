@@ -23,14 +23,7 @@ $(function()
             var data =  $("#frm-login").serialize();
             $.post('Login', data, function(res, est, jqXHR){
                 if(res != 'error'){
-                    switch(res){
-                        case 'principal':
-                            window.location = "Vistas/Principal/principal.jsp"; 
-                            break;
-                        case 'lista_imagenes':
-                            window.location = "Vistas/Principal/principal.jsp"; 
-                            break;
-                    }
+                    window.location = "Vistas/Principal/principal.jsp"; 
                 }else{
                     alert("Credenciales invalidas");
                 }

@@ -62,6 +62,8 @@
             $(document).ready(function(){
                $('#fechaadquisi').datetimepicker({locale: 'es', format: "YYYY-MM-DD"}); 
                $('#fechainv').datetimepicker({locale: 'es', format: "YYYY-MM-DD"}); 
+               $('#fechadesde').datetimepicker({locale: 'es', format: "YYYY-MM-DD"}); 
+               $('#fechahasta').datetimepicker({locale: 'es', format: "YYYY-MM-DD"}); 
                $('.carousel').carousel({
                 interval: 5000 //changes the speed
             });
@@ -118,6 +120,7 @@
                       <ul class="dropdown-menu">
                           <li><a href="Vistas/reportes/ReportesPiezas.jsp"><i class="glyphicon glyphicon-book"> Reporte de Piezas </i></a></li>
                           <li><a href="Vistas/reportes/ReportesUsuarios.jsp"><i class="glyphicon glyphicon-user" > Reporte de Usuarios</i></a></li>
+                          <li><a href="Vistas/reportes/Reporte_Bitacora.jsp"><i class="glyphicon glyphicon-user" > Reporte de Log Usuarios</i></a></li>
                       </ul>
                     </li>
                <% } %>

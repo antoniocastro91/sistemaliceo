@@ -14,6 +14,7 @@
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
     }
     ControladorUsuario controladorUsuario = new ControladorUsuario();
+    controladorUsuario.setId_usuario(Integer.parseInt(session.getAttribute("id_usuario").toString()));
     Usuario usuario = new Usuario();
     usuario = controladorUsuario.getUsuario(Integer.parseInt(request.getParameter("id_usuario").toString()));
 %>

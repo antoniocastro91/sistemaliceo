@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,9 +36,10 @@ public class EliminarPiezas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-             ControladorInventario  ci= new ControladorInventario();
-          
+            HttpSession sesion = request.getSession(true);
+            ControladorInventario  ci= new ControladorInventario();
+            int id_usuario = Integer.parseInt(sesion.getAttribute("id_usuario").toString());
+            ci.setId_usuario(id_usuario);    
             String id = request.getParameter("id");
             
             if(ci.eliminar(Integer.parseInt(id))){

@@ -87,6 +87,8 @@ public class ModificarPiezas extends HttpServlet {
             }
             
          ControladorInventario  ci= new ControladorInventario();
+         HttpSession sesion = request.getSession(true);
+         ci.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
          //Inventario inv = new Inventario(numinventari, descrip, nombre, forma, material, tecnica, color, periodo, clasificacion,alto,ancho,largo,diametro,grosor,peso,  procedencia, condicion, formaadquisi,fechaadquisi , regimen, custodio, fechainv, realizadopor,  observaciones);
           
         if(ci.actualizar(inv)){

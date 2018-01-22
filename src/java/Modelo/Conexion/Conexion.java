@@ -5,6 +5,7 @@
  */
 package Modelo.Conexion;
 
+import Include.Usuario.Usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -49,12 +50,12 @@ public class Conexion {
     {
         Conexion con = new Conexion();
     }
-    public int loguear(String usuario, String clave){
+    public Usuario loguear(String usuario, String clave){
         Connection co;
         PreparedStatement pst;
         ResultSet rs;
-        int a =0;   
-        String sql ="select nivel from usuario u, rol r where usuario='" + usuario +"' and clave= Md5("+ clave+") and u.estado=1 and u.estado = r.estado"; 
+        Usuario u = new Usuario();   
+        String sql ="select u.id, u.nivel, u.usuario from usuario u, rol r where u.usuario='" + usuario +"' and u.clave= Md5("+ clave+") and u.estado=1 and u.estado = r.estado"; 
         try {
             Class.forName(this.CLASSNAME);
             co=DriverManager.getConnection(
@@ -63,10 +64,14 @@ public class Conexion {
             rs = pst.executeQuery();
             while(rs.next())
             {
-                a = rs.getInt(1);
+                u.setId_usuario(rs.getInt(1));
+                u.setNivel(rs.getInt(2));
+                u.setUsuario(rs.getString(3));
             }
             co.close();
-        } catch (ClassNotFoundException | SQLException e){}
-    return a;
+        } catch (ClassNotFoundException | SQLException e){
+            return null;
+        }
+        return u;
     }
 }

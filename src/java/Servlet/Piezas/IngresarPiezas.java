@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -66,8 +67,9 @@ public class IngresarPiezas extends HttpServlet {
                 }
             }
             
-         ControladorInventario  ci= new ControladorInventario();
-         //Inventario inv = new Inventario(numinventari, descrip, nombre, forma, material, tecnica, color, periodo, clasificacion,alto,ancho,largo,diametro,grosor,peso,  procedencia, condicion, formaadquisi,fechaadquisi , regimen, custodio, fechainv, realizadopor,  observaciones);
+        HttpSession sesion = request.getSession(true);
+        ControladorInventario  ci= new ControladorInventario();
+        ci.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
           
         if(ci.insertar(inv)){
             if(this.subir_imagen(imagenes, ci.ultimo_id_insertado)){

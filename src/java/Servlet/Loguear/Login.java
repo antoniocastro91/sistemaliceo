@@ -41,27 +41,20 @@ public class Login extends HttpServlet {
        PrintWriter out = response.getWriter();
        Usuario u = new Usuario(usuario, clave);
        ControladorUsuario cu = new ControladorUsuario();
+       HttpSession sesion = request.getSession(true);
+       cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
        Conexion cn = new Conexion();
        if(cu.validar(u)){
-            HttpSession sesion = request.getSession(true);
-            switch(cn.loguear(usuario, clave))
-            {
-                case 1:
-                       sesion.setAttribute("usuario", usuario); 
-                       sesion.setAttribute("nivel", 1);
-                       response.getWriter().print("principal");
-                break;
-                case 2:
-                        sesion.setAttribute("usuario", usuario);
-                        sesion.setAttribute("nivel",2);
-                        response.getWriter().print("principal");
-                break;        
-                case 3:
-                   sesion.setAttribute("usuario", usuario);
-                   sesion.setAttribute("nivel", 3);
-                   response.getWriter().print("lista_imagenes");
-                break;  
-           }
+            
+            Usuario usu = cn.loguear(usuario, clave);
+            sesion.setAttribute("usuario", usu.getUsuario()); 
+            sesion.setAttribute("nivel", usu.getNivel());
+            sesion.setAttribute("id_usuario", usu.getId_usuario());
+            if(usu.getUsuario() != null){
+                response.getWriter().print("ok");
+            }else{
+                response.getWriter().print("error");
+            }
        }else {
            response.getWriter().print("error");
        }

@@ -5,6 +5,7 @@
  */
 package Servlet.Reportes;
 
+import Controlador.Inventario.ControladorInventario;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -29,6 +30,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -48,10 +50,61 @@ public class ServletPiezas extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            response.setContentType("application/pdf");
-            OutputStream out = response.getOutputStream();
-
-            String nombrepieza = request.getParameter("txtpieza");
+             HttpSession sesion = request.getSession(true);
+            ControladorInventario ci = new ControladorInventario();
+            ci.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
+            ci.crear_log("Consultó el Reporte de la pieza con el siguiente dato: " + request.getParameter("txtpieza"));
+            
+            boolean consultar =  Boolean.parseBoolean(request.getParameter("consultar"));
+            if(consultar){
+                 this.consultar(request, response);
+            }else{
+                this.mostrarPdf(request, response);
+            }
+            
+    }
+            protected void consultar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+              response.setContentType("text/html;charset=UTF-8");   
+                String nombrepieza = request.getParameter("txtpieza");
+                try {
+                Connection con = null;
+                Statement st = null;
+                ResultSet rs = null; 
+                Class.forName("com.mysql.jdbc.Driver");
+                con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemmuna", "root", "root");
+                st = con.createStatement();
+                rs = st.executeQuery("select i.IdInventario, i.NumInventario,i.Descripcion,"
+                        + "i.NombrePieza,i.Forma,i.Color, i.Periodo,i.Imagenes , m.material, t.Tecnica, "
+                        + "i.Alto,i.Diamtero,i.Ancho,i.Grosor,i.Largo,i.Peso,i.Procedencia, i.Condicion,"
+                        + "i.FormaAdquisicion,i.FAdquisicion,i.Regimen,i.Custodio,i.FInventario,i.RealizadoPor,"
+                        + "i.Observaciones  "
+                        + "from inventarios i "
+                        + "join materiales m on i.IdMaterial = m.IdMaterial "
+                        + "join tecnicas t on i.IdTecnica = t.IdTecnica where NombrePieza = '" + nombrepieza + "' or NumInventario like '%"+nombrepieza+"%' or i.Imagenes like '%"+ nombrepieza+"%.jpg' or i.Imagenes like '%"+ nombrepieza+"%.png'");
+                if (con != null){     
+                    
+                    int total = 0;
+                    while (rs.next()){
+                       //Obtienes la data que necesitas...
+                       total++;
+                    }
+                    if(total > 0 ){
+                       response.getWriter().print("ok");
+                    }else{
+                       response.getWriter().print("error");
+                    }
+                } 
+                } catch (Exception e) {
+                        response.getWriter().print("error");
+                }
+        }
+        
+            protected void mostrarPdf (HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+                response.setContentType("application/pdf");
+                 OutputStream out = response.getOutputStream();
+                String nombrepieza = request.getParameter("txtpieza");
             try {
                 try {
                 Connection con = null;
@@ -72,7 +125,9 @@ public class ServletPiezas extends HttpServlet {
                      
                  
                 if (con != null){
-                    try {
+                    
+                 try {
+                     
                 Document documento = new Document();
                 PdfWriter.getInstance(documento, out);
                 documento.open(); 
@@ -322,6 +377,8 @@ public class ServletPiezas extends HttpServlet {
                 } catch (Exception e) {
                     e.getMessage();
                 }
+        
+
            }               
             } catch (Exception e){e.getMessage();} {
             }
@@ -329,8 +386,11 @@ public class ServletPiezas extends HttpServlet {
             
         } catch (Exception e) {
         }
-        
-    }
+
+  }
+                
+             
+ 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

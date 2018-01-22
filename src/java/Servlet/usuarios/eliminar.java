@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,7 +36,10 @@ public class eliminar extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            HttpSession sesion = request.getSession(true);
             Controlador.Usuario.ControladorUsuario controladorUsuario = new ControladorUsuario();
+            controladorUsuario.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
+            
             String id = request.getParameter("id");
             
             if(controladorUsuario.eliminar(Integer.parseInt(id))){

@@ -5,6 +5,7 @@
  */
 package Servlet.Piezas;
 
+import Controlador.Inventario.ControladorInventario;
 import Include.Inventario.Inventario;
 import Modelo.Inventario.ModeloInventario;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 
 
@@ -39,12 +41,13 @@ public class Detalle_Piezas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            HttpSession sesion = request.getSession(true);
             String id = request.getParameter("id");
-            Inventario i = new Inventario();
-            ModeloInventario mi = new ModeloInventario();
-            i = mi.obtener_inventario_por_id(Integer.parseInt(id));
+            ControladorInventario ci = new ControladorInventario();
+            int id_usuario = Integer.parseInt(sesion.getAttribute("id_usuario").toString());
+            ci.setId_usuario(id_usuario);
+            Inventario i = ci.getInventario(Integer.parseInt(id));
             JSONObject obj = new JSONObject();
-            
                 obj.put("Imagen", i.getImagenes());
                 obj.put("NumInventario", i.getNumInventario() );
                 obj.put("Descripcion",i.getDescripcion());

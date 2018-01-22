@@ -55,6 +55,7 @@ public class CrearUsuario extends HttpServlet {
      
         Usuario usuario1 = new Usuario(null, null,usuario, clave,email, estado, nivel,usuariocreacion, fechacreacion);
         Controlador.Usuario.ControladorUsuario cu = new ControladorUsuario();
+        cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
         
         if(cu.insertar(usuario1)){
             response.getWriter().print("1");

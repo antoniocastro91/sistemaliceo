@@ -12,6 +12,7 @@ import java.util.List;
 public class ModeloUsuario extends Conexion {
     private Conexion c = new Conexion();
     public String error = "";
+    private int ultimo_id_insertado = -1;
     
     public boolean Autenticar(Usuario u){
         boolean flag = false;
@@ -44,7 +45,7 @@ public class ModeloUsuario extends Conexion {
     PreparedStatement pst= null;
     try{
             String sql="insert into usuario (usuario,clave,email,estado,nivel,usuariocreacion, fechacreacion) values (?,Md5(?),?,?,?,?,?)";
-            pst = getConexion().prepareStatement(sql);
+            pst = getConexion().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
       
             pst.setString(1, u.getUsuario());
             pst.setString(2, u.getClave());
@@ -57,7 +58,16 @@ public class ModeloUsuario extends Conexion {
               if(pst.executeUpdate() == 1){
             flag = true;
              }
-        
+              try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    this.ultimo_id_insertado = generatedKeys.getInt(1);
+                }
+                else {
+                    this.ultimo_id_insertado = -1;
+                }
+            }catch(Exception e){
+                this.error = e.getMessage();
+            }
         }catch (Exception e) {
              System.err.println(e.getMessage());
         }finally{

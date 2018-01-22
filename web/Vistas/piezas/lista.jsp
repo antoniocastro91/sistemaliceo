@@ -18,6 +18,7 @@
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
     }
     Controlador.Inventario.ControladorInventario controladorIF = new ControladorInventario();
+    controladorIF.setId_usuario(Integer.parseInt(session.getAttribute("id_usuario").toString()));
      List<Inventario>  lista_inventario = controladorIF.listar();
      Usuario user = null;
     ControladorUsuario cu = null;

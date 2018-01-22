@@ -21,6 +21,7 @@
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
     }
     Controlador.Inventario.ControladorInventario controladorinventario = new ControladorInventario();
+    controladorinventario.setId_usuario(Integer.parseInt(session.getAttribute("id_usuario").toString()));
     Inventario ficha = new Inventario();
     ficha = controladorinventario.getInventario(Integer.parseInt(request.getParameter("id_inventario").toString()));
     /*ficha.setFAdquisicion(new SimpleDateFormat("dd-mm-yyyy").parse(ficha.getFAdquisicion()).toString());*/

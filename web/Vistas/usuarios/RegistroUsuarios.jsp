@@ -15,6 +15,7 @@
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
     }
     ControladorUsuario controladorUsuario = new ControladorUsuario();
+    controladorUsuario.setId_usuario(Integer.parseInt(session.getAttribute("id_usuario").toString()));
     Usuario usuario = new Usuario();
 %>
 <jsp:include page="../common/header.jsp"/>
