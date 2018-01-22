@@ -55,7 +55,7 @@ public class Conexion {
         PreparedStatement pst;
         ResultSet rs;
         Usuario u = new Usuario();   
-        String sql ="select u.id, u.nivel, u.usuario from usuario u, rol r where u.usuario='" + usuario +"' and u.clave= Md5("+ clave+") and u.estado=1 and u.estado = r.estado"; 
+        String sql ="select u.id, u.usuario,u.clave, u.nivel from usuario u, rol r where u.usuario='" + usuario +"' and u.clave= Md5("+ clave+") and u.estado=1 and u.estado = r.estado"; 
         try {
             Class.forName(this.CLASSNAME);
             co=DriverManager.getConnection(
@@ -65,8 +65,9 @@ public class Conexion {
             while(rs.next())
             {
                 u.setId_usuario(rs.getInt(1));
-                u.setNivel(rs.getInt(2));
-                u.setUsuario(rs.getString(3));
+                u.setUsuario(rs.getString(2));
+                u.setClave(rs.getString(3));
+                u.setNivel(rs.getInt(4));
             }
             co.close();
         } catch (ClassNotFoundException | SQLException e){

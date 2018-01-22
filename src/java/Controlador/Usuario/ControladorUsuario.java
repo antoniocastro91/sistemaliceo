@@ -10,7 +10,7 @@ import java.util.List;
 public class ControladorUsuario {
     ModeloUsuario mu = new ModeloUsuario();
     public int ultimo_id_insertado = -1;
-    public String error = ""        ;
+    public String error = "";
     int id_usuario;
 
     public int getId_usuario() {
@@ -82,7 +82,7 @@ public class ControladorUsuario {
     }
     public String getViewUser(Usuario u){
          String htmlcode = "";
-         htmlcode += "<b> <p> Bienvenido "+ u.getUsuario() + "</b></p>" +"<a href='CerrarSesion'> Cerrar Sesion</a> ";
+         htmlcode += "<b> <p> Bienvenido "+ u.getUsuario() + "</b></p>" +"<a href='CerrarSesion' > Cerrar Sesion</a>";
         return htmlcode;
     }
     public Usuario getUsuario(int id_usuario){

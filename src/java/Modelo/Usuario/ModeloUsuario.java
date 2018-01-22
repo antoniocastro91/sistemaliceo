@@ -2,6 +2,8 @@ package Modelo.Usuario;
 
 import Include.Usuario.Usuario;
 import Modelo.Conexion.Conexion;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,6 +42,7 @@ public class ModeloUsuario extends Conexion {
         }
         return flag;
     }
+
     public boolean insertarusuario(Usuario u){
     boolean flag = false;
     PreparedStatement pst= null;
