@@ -35,25 +35,28 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+       response.setContentType("text/html;charset=UTF-8");
+       PrintWriter out = response.getWriter();
+       
+       ControladorUsuario cu = new ControladorUsuario();
+       //
        String usuario = request.getParameter("usuario");
        String clave = request.getParameter("clave");
-       PrintWriter out = response.getWriter();
        Usuario u = new Usuario(usuario, clave);
-       ControladorUsuario cu = new ControladorUsuario();
-       
-       //
        Conexion cn = new Conexion();
        if(cu.validar(u)){
+           
             Usuario usu = cn.loguear(usuario, clave);
-            
             HttpSession sesion = request.getSession(true);
+            //cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
             sesion.setAttribute("usuario", usu.getUsuario()); 
             sesion.setAttribute("nivel", usu.getNivel());
             sesion.setAttribute("id_usuario", usu.getId_usuario());
+            
             if(usu.getUsuario() != null){
+                
                 response.getWriter().print("ok");
-                out.print("hola usua");
+               
             }else{
                 response.getWriter().print("error");
             }

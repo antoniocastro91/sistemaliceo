@@ -31,9 +31,11 @@ public class ControladorUsuario {
     public boolean validar(Usuario u){
        
          boolean result = mu.Autenticar(u);
-        if(result){
-            this.crear_log("El siguiente usuario ha iniciado sesion:" + u.getUsuario());
-        }
+     if(result){
+       this.crear_log("El siguiente usuario ha iniciado sesion:" + u.getUsuario());
+     }
+     
+       
         return result;
     }
     public boolean insertar(Usuario u){

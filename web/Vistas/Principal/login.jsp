@@ -7,7 +7,7 @@
       <c:set var="req" value="${pageContext.request}" />
 	<c:set var="uri" value="${req.requestURI}" />
 	<c:set var="url">${req.requestURL}</c:set>
-	<base href="http://localhost:8080/SistemMuna/" />
+	<base href="http://localhost:26683/SistemMuna/" />
         <link rel="stylesheet" href="resources/css/bootstrap.min.css">
         <link rel="stylesheet" href="resources/css/formlogin.css">
         <!-- icon -->

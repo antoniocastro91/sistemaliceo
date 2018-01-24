@@ -55,7 +55,7 @@ public class ModificarPiezas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            this.UPLOAD_DIRECTORY = this.getServletContext().getRealPath("resources/imagenes");
+            this.UPLOAD_DIRECTORY = this.getServletContext().getRealPath("Imagenes");
             Inventario inv = new Inventario();
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             imagenes.clear();
@@ -63,7 +63,7 @@ public class ModificarPiezas extends HttpServlet {
             for (FileItem item : items) {
                 if (item.isFormField()) {
                     // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
-                    inv = this.obtener_datos(inv, item.getFieldName(), item.getString());
+                    inv = this.obtener_datos(request,inv, item.getFieldName(), item.getString());
                 } else{
                     if(item.getName().length() > 0){
                         String img = inv.getImagenes() != null ? inv.getImagenes(): "";
@@ -96,7 +96,7 @@ public class ModificarPiezas extends HttpServlet {
                 response.getWriter().print("1");
                 response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/piezas/lista.jsp"));
             }else{
-                response.getWriter().print("0");
+                response.getWriter().print("error");
                 out.print(this.error);
             }
         }else{
@@ -108,7 +108,9 @@ public class ModificarPiezas extends HttpServlet {
        }
     }
     
-    private Inventario obtener_datos(Inventario i, String campo, String valor){
+    private Inventario obtener_datos(HttpServletRequest request,Inventario i, String campo, String valor){
+            HttpSession sesion = request.getSession(true);
+        String usu = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();
         switch(campo){
             case "id":
                 i.setIdInventario(Integer.parseInt(valor));
@@ -188,7 +190,10 @@ public class ModificarPiezas extends HttpServlet {
                 }
                 break;
             case "realizadopor":
-                i.setRealizadoPor(valor);
+                i.setRealizadoPor(usu);
+                break;
+            case "actualizadopor":
+                i.setActualizadoPor(usu);
                 break;
             case "observaciones":
                 i.setObservaciones(valor) ;

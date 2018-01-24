@@ -1,5 +1,6 @@
 package Modelo.Usuario;
 
+import Controlador.Usuario.ControladorUsuario;
 import Include.Usuario.Usuario;
 import Modelo.Conexion.Conexion;
 import java.sql.Connection;
@@ -15,7 +16,7 @@ public class ModeloUsuario extends Conexion {
     private Conexion c = new Conexion();
     public String error = "";
     private int ultimo_id_insertado = -1;
-    
+    ControladorUsuario cu;
     public boolean Autenticar(Usuario u){
         boolean flag = false;
         PreparedStatement pst = null;
@@ -27,8 +28,8 @@ public class ModeloUsuario extends Conexion {
             pst.setString(2, u.getClave());
             rs = pst.executeQuery();
             if(rs.absolute(1)){
-            flag = true;
-            }
+             flag = true;
+            }             
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }finally{

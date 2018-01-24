@@ -22,7 +22,7 @@
       <c:set var="req" value="${pageContext.request}" />
 	<c:set var="uri" value="${req.requestURI}" />
 	<c:set var="url">${req.requestURL}</c:set>
-	<base href="http://localhost:8080/SistemMuna/" />
+	<base href="http://localhost:26683/SistemMuna/" />
         
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -52,8 +52,7 @@
          <script type="text/javascript" src="resources/javascript/jquery.validate.min.js"></script>
          <script type="text/javascript" src="resources/javascript/main.js"></script>
          <script type="text/javascript" src="resources/javascript/validaciones.js"></script>
-         <script src="resources/javascript/BuscadorTabla.js" type="text/javascript"></script>
-         
+                 
 
         <script type="text/javascript" src="resources/js/moment.js"></script>
         <script type="text/javascript" src="resources/js/bootstrap-datetimepicker.js"></script>

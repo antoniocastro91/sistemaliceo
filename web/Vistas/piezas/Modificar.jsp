@@ -227,11 +227,18 @@
                                                <input type="text" id="fechainv" name="fechainv" value="<%= ficha.getFInventario()%>" class="form-control"/>
                                          </div>
                                 </div>
-                              <div class="form-group col-md-6">
+                              <div style="display:none;" class="form-group col-md-6">
                                      <label for="name" class="control-label">Realizado por</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                                <input type="text" id="realizadopor" name="realizadopor" value="<%= ficha.getRealizadoPor()%>" class="form-control"/>
+                                         </div>
+                                </div>
+                              <div style="display:none;" class="form-group col-md-6">
+                                     <label for="name" class="control-label">Actualizado por</label>
+                                        <div class="input-group">
+                                               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                               <input type="text" id="actualizadopor" name="actualizadopor" value="<%= ficha.getActualizadoPor()%>" class="form-control"/>
                                          </div>
                                 </div>
                          </div>

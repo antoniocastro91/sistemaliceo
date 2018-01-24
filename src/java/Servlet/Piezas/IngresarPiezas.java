@@ -57,7 +57,7 @@ public class IngresarPiezas extends HttpServlet {
             for (FileItem item : items) {
                 if (item.isFormField()) {
                     // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
-                    inv = this.obtener_datos(inv, item.getFieldName(), item.getString());
+                    inv = this.obtener_datos(request,inv, item.getFieldName(), item.getString());
                 } else{
                     if(item.getName().length() > 0){
                         imagenes.add(item);
@@ -74,8 +74,14 @@ public class IngresarPiezas extends HttpServlet {
         if(ci.insertar(inv)){
             if(this.subir_imagen(imagenes, ci.ultimo_id_insertado)){
                 response.getWriter().print("1");
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Pieza Ingresada correctamente');");
+                out.println("</script>");
                 response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/piezas/lista.jsp"));
             }else{
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Pieza no isertada');");
+                out.println("</script>");
                 response.getWriter().print("0");
                 out.print(this.error);
             }
@@ -89,7 +95,9 @@ public class IngresarPiezas extends HttpServlet {
         
     }
     
-    private Inventario obtener_datos(Inventario i, String campo, String valor){
+    private Inventario obtener_datos(HttpServletRequest request,Inventario i, String campo, String valor){
+        HttpSession sesion = request.getSession(true);
+        String usu = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();
         switch(campo){
             case "numinv":
                 i.setNumInventario(valor);
@@ -166,8 +174,7 @@ public class IngresarPiezas extends HttpServlet {
                 }
                 break;
             case "realizadopor":
-                i.setRealizadoPor(valor);
-                break;
+                i.setRealizadoPor(usu);
             case "observaciones":
                 i.setObservaciones(valor) ;
                 break;

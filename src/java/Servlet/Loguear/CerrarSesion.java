@@ -6,6 +6,7 @@
 package Servlet.Loguear;
 
 import Controlador.Usuario.ControladorUsuario;
+import Include.Usuario.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,11 +32,21 @@ public class CerrarSesion extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        ControladorUsuario  cu = new ControladorUsuario();
-        
+       response.setContentType("text/html;charset=UTF-8");
        HttpSession sesion = request.getSession(true);
-       sesion.removeValue("usuario");
+       ControladorUsuario cu = new ControladorUsuario();
+       cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
+       
+    
+       if(sesion == request.getSession(false)){
+           sesion.removeValue("usuario");
+           Usuario u = new Usuario();
+           cu.crear_log("El siguiente usuario ha cerrado sesion" + request.getParameter("usuario"));
+       }
+       
+       
+       
+       
        
        response.sendRedirect("Vistas/Principal/login.jsp");
     }

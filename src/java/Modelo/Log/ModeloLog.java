@@ -26,7 +26,7 @@ public class ModeloLog extends Conexion {
         boolean flag = false;
         PreparedStatement pst= null;
         try{
-            String sql="insert into log (id_usuario,hora,accion) values (?,?,?)";
+            String sql="insert into sistemmuna.log (id_usuario,hora,accion) values (?,?,?)";
             pst = getConexion().prepareStatement(sql);
 
             pst.setInt(1, l.getId_usuario());

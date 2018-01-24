@@ -218,11 +218,11 @@
                                                <input type="text" id="fechainv" name="fechainv" class="form-control"/>
                                          </div>
                                 </div>
-                              <div class="form-group col-md-6">
-                                     <label for="name" class="control-label">Realizado por</label>
+                              <div style="display:none;" class="form-group col-md-6">
+                                     <label type="hidden" for="name" class="control-label">Realizado por</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                               <input type="text" id="realizadopor" name="realizadopor" class="form-control" placeholder="Ingrese el tipo de  Material"/>
+                                               <input type="hidden" id="realizadopor" name="realizadopor" class="form-control" placeholder="Ingrese el tipo de  Material"/>
                                          </div>
                                 </div>
                          </div>
