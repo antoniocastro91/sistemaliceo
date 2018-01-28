@@ -29,7 +29,7 @@ input::-webkit-input-placeholder {
      margin: 20px 10px 0 0;
 }
 
-.main-login{
+.main-ficha{
     background-color: #ec971f;
     /* shadows and rounded borders */
     -moz-border-radius: 2px;
@@ -76,7 +76,7 @@ padding: 8px 12px !important;
  	margin: 0 auto;
  	max-width: 900px;
         padding: 10px 40px;
-	background:  #1f618d;
+	background: #2196F3;
 	color: #d9edf7;
     text-shadow: none;
 	-webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);

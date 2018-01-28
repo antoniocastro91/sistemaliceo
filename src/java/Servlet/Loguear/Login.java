@@ -37,24 +37,24 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
        response.setContentType("text/html;charset=UTF-8");
        PrintWriter out = response.getWriter();
-       
-       ControladorUsuario cu = new ControladorUsuario();
-       //
+      
        String usuario = request.getParameter("usuario");
        String clave = request.getParameter("clave");
        Usuario u = new Usuario(usuario, clave);
        Conexion cn = new Conexion();
+        HttpSession sesion = request.getSession(true);
+        Controlador.Usuario.ControladorUsuario cu = new ControladorUsuario();
+      
        if(cu.validar(u)){
-           
+           //sesion.removeValue("id_usuario");
+            
             Usuario usu = cn.loguear(usuario, clave);
-            HttpSession sesion = request.getSession(true);
-            //cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
             sesion.setAttribute("usuario", usu.getUsuario()); 
             sesion.setAttribute("nivel", usu.getNivel());
             sesion.setAttribute("id_usuario", usu.getId_usuario());
-            
             if(usu.getUsuario() != null){
-                
+                  cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
+                cu.crear_log("El siguiente usuario ha iniciadio sesion " + sesion.getAttribute("usuario"));
                 response.getWriter().print("ok");
                
             }else{
@@ -63,7 +63,6 @@ public class Login extends HttpServlet {
        }else {
            response.getWriter().print("error");
        }
-
 
     }
 

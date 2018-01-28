@@ -74,17 +74,12 @@ public class IngresarPiezas extends HttpServlet {
         if(ci.insertar(inv)){
             if(this.subir_imagen(imagenes, ci.ultimo_id_insertado)){
                 response.getWriter().print("1");
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Pieza Ingresada correctamente');");
-                out.println("</script>");
-                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/piezas/lista.jsp"));
+                 response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/piezas/lista.jsp"));
             }else{
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Pieza no isertada');");
-                out.println("</script>");
                 response.getWriter().print("0");
                 out.print(this.error);
             }
+            
         }else{
             response.getWriter().print("0");
             out.print(ci.error);
@@ -92,7 +87,6 @@ public class IngresarPiezas extends HttpServlet {
        }catch(Exception e){
            response.getWriter().println("Error");
        }
-        
     }
     
     private Inventario obtener_datos(HttpServletRequest request,Inventario i, String campo, String valor){

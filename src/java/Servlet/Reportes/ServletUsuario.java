@@ -5,6 +5,7 @@
  */
 package Servlet.Reportes;
 
+import Controlador.Usuario.ControladorUsuario;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -30,6 +31,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author Antonio Castro
@@ -48,28 +50,87 @@ public class ServletUsuario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-             response.setContentType("application/pdf");
-            OutputStream out = response.getOutputStream();
-
+            HttpSession sesion = request.getSession(true);
+            ControladorUsuario cu = new ControladorUsuario();
+            cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
+            cu.crear_log("Consultó el Reporte del Usuario con el siguiente dato: " + request.getParameter("txtusuario"));
+           
+            boolean consultar =  Boolean.parseBoolean(request.getParameter("consultar"));
+            if(consultar){
+                 this.consultar(request, response);
+            }else{
+                this.mostrarPdf(request, response);
+            }
+   }           
+           protected void consultar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+            response.setContentType("text/html;charset=UTF-8"); 
             String nombreusuario = request.getParameter("txtusuario");
-            
-            try {
+            String btnbuscartodos = request.getParameter("btnbuscartodos");
                 try {
                 Connection con = null;
                 Statement st = null;
                 ResultSet rs = null; 
-                
                 Class.forName("com.mysql.jdbc.Driver");
                 con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemmuna", "root", "root");
                 st = con.createStatement();
-                if(nombreusuario == ""){
+                
+               if(nombreusuario == nombreusuario && btnbuscartodos == ""){
                 rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
-                }else{
+                }
+                 if(btnbuscartodos == ""){
+                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
+                } 
+                if(nombreusuario == nombreusuario){
                 rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion, DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario Where usuario = '"+nombreusuario+"'");
                 }
-                if (con != null){
+
+                if (con != null){     
+                    
+                    int total = 0;
+                    while (rs.next()){
+                       //Obtienes la data que necesitas...
+                       total++;
+                    }
+                    if(total >= 0 ){
+                       response.getWriter().print("ok");
+                    }else{
+                       response.getWriter().print("error");
+                    }
+                } 
+                } catch (Exception e) {
+                        response.getWriter().print("error");
+                }          
+           
+           }
+           
+           protected void mostrarPdf (HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+            response.setContentType("application/pdf");
+            OutputStream out = response.getOutputStream();
+            String nombreusuario = request.getParameter("txtusuario");
+            String btnbuscartodos = request.getParameter("btnbuscartodos");
+                try {
                     try {
-                Document documento = new Document();
+                    Connection con = null;
+                    Statement st = null;
+                    ResultSet rs = null; 
+                     Class.forName("com.mysql.jdbc.Driver");
+                     con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemmuna", "root", "root");
+                     st = con.createStatement();
+               if(nombreusuario == nombreusuario && btnbuscartodos == ""){
+                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
+                }
+                 if(btnbuscartodos == ""){
+                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
+                } 
+                if(nombreusuario == nombreusuario){
+                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion, DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario Where usuario = '"+nombreusuario+"'");
+                }             
+                
+                    if (con != null){
+                    try {
+                         Document documento = new Document();
                 PdfWriter.getInstance(documento, out);
                 documento.open(); 
                
@@ -178,15 +239,18 @@ public class ServletUsuario extends HttpServlet {
                 documento.add(tabla);
 
                 documento.close();
-                
-            } catch (Exception e) {e.getMessage();}{
-            }
-                }               
+                        
+                } catch (Exception e) {
+                    e.getMessage();
+                }
+           }               
             } catch (Exception e){e.getMessage();} {
             }
+            
         } catch (Exception e) {
         }
-        
+
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

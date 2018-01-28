@@ -46,7 +46,7 @@
 <div class ="container">
   <div class="row main">
     <div class="main-center-usuario">
-        <form class=" frm-registrousuario" name= "reporte" action="ServletPiezas"> 
+        <form class=" frm-registropieza" name= "reporte" action="ServletPiezas"> 
             <fieldset class="form-control input-group">               
                 <legend>B&uacute;squeda por</legend>
                     <div class="row" align="center">

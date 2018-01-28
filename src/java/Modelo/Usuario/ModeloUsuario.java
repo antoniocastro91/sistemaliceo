@@ -109,38 +109,22 @@ public class ModeloUsuario extends Conexion {
 
         return lista_usuarios;      
     }
-        public List<Usuario>listar_usuariosrepor(String nombres,String tipoBuscar){
+        public List<Usuario>listar_nombreusuarios(){
           
-            Conexion cn = null;
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            String sql ="";
-            try {
-             
-               this.c.getConexion();
-                sql = "select * from usuario where usuario like ? or nivel like ? or estado like ? order by usuario asc";
-
-            ps = getConexion().prepareStatement(sql);
-            ps.setString(1, nombres.concat("%"));
-            ps.setString(2, nombres.concat("%"));
-            ps.setString(3, nombres.concat("%"));
-            rs = ps.executeQuery();
-            List<Usuario> lista = new ArrayList<Usuario>();
-            Usuario u = null;
+           List<Usuario> lista_nombreusu = new ArrayList<>();
+        try {
+            Statement statement = this.c.getConexion().createStatement();
+            ResultSet rs = statement.executeQuery("select usuario from usuario");
             while (rs.next()) {
-                u = new Usuario();
-                u.setId_usuario(rs.getInt("id"));
-                u.setUsuario(rs.getString("usuario"));
-                u.setNivel(rs.getInt("nivel"));
-                u.setEstado(rs.getInt("estado"));
-                u.setEmail(rs.getString("email"));               
-                lista.add(u);
-            } 
-            return lista;
-            }catch (Exception e) {
-             this.error = e.getMessage();
-             System.err.println(e.getMessage());   
-            }return null;
+                
+                Usuario usuario = new Usuario();
+                usuario.setUsuario(rs.getString("usuario"));
+                lista_nombreusu.add(usuario);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista_nombreusu;
     }
     
     public boolean actualizar (Usuario u){

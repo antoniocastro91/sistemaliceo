@@ -1,3 +1,8 @@
+<%@page import="Include.Tecnicas.Tecnicas"%>
+<%@page import="Modelo.Tecnicas.ModeloTecnicas"%>
+<%@page import="Include.Materiales.Materiales"%>
+<%@page import="java.util.List"%>
+<%@page import="Modelo.Materiales.ModeloMateriales"%>
 <%@page import="Modelo.Conexion.Conexion"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.ResultSet"%>
@@ -16,12 +21,17 @@
     if (Integer.parseInt(nivel.toString()) == 3){
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
     }
+    ModeloMateriales mm = new ModeloMateriales();
+    List<Materiales> lista_mat = mm.listar_materiales();
+    
+    ModeloTecnicas mt = new ModeloTecnicas();
+    List<Tecnicas> lista_tec = mt.listar_tecnicas();
 %> 
 <jsp:include page="../common/header.jsp"/>
  <div class="container">
             <div class="row main">
-                <div class="main-login main-center-inven">
-                    <form class="" method="post" id="frm-registousuario" action="piezas_Ingresar" enctype="multipart/form-data">
+                <div class="main-ficha main-center-inven">
+                    <form class="" method="post" id="frm-registropieza" action="piezas_Ingresar" enctype="multipart/form-data">
                          <h3 align="center">Formulario para el Registro de Inventario.</h3>
                          
                          <div class="row">
@@ -29,7 +39,7 @@
                                      <label for="name" class="cols-sm-3 control-label">Inv Nº</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class=" glyphicon glyphicon-barcode"></i></span>
-                                               <input type="text" id="numinv" name="numinv" class="form-control" placeholder="Ingrese el numero de Inventario"/>
+                                               <input type="text" id="numinv" name="numinv" class="form-control" required="" placeholder="Ingrese el numero de Inventario"/>
                                          </div>
                                 </div>
                          </div>    
@@ -38,7 +48,7 @@
                                      <label for="name" class="cols-sm-3 control-label">Descripcion</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span>
-                                               <textarea id="descrip" name="descrip"  style="color: black;" rows="2" cols="168"></textarea> 
+                                               <textarea id="descrip" name="descrip" required=""  style="color: black;" rows="2" cols="168"></textarea> 
                                          </div>
                                 </div>
                          </div>
@@ -47,49 +57,40 @@
                                      <label for="name" class="cols-sm-3 control-label">Nombre de la pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-font"></i></span>
-                                               <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre"/>
+                                               <input type="text" id="nombre" required="" name="nombre" class="form-control" placeholder="Nombre"/>
                                          </div>
                                 </div>
                               <div class="form-group col-md-4">
                                      <label for="name" class="control-label">Forma de la pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-screenshot"></i></span>
-                                               <input type="text" id="forma" name="forma" class="form-control" placeholder="Forma"/>
+                                               <input type="text" id="forma" required="" name="forma" class="form-control" placeholder="Forma"/>
                                          </div>
                                 </div>
-                                  <%
-                                                   Statement statement = con.getConexion().createStatement();
-                                                   ResultSet rs = statement.executeQuery("select * from Materiales");        
-                                 %>
+
                                <div class="form-group col-md-4">
                                      <label for="name" class="control-label">Material de la Pieza</label>
                                         <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-screenshot"></i></span>
-                                                 <select type="text" id="material" name="material" class="form-control">
+                                                 <select type="text" id="material" name="material" required="" class="form-control">
                                                     <option selected > Seleccione el Material</option>
-
-                                                     <% while(rs.next()) { %>
-                                                     <option value="<%=rs.getString("IdMaterial")%>"> <%=rs.getString("Material")%></option> 
-                                                     <% }%>    
+                                                        <% for(int i=0; i < lista_mat.size(); i++ ){ %>
+                                                          <option value="<%=lista_mat.get(i).getIdMaterial()%>"><%= lista_mat.get(i).getMaterial()%></option>
+                                                       <% } %>
                                                  </select>
                                          </div>
                                 </div>
                          </div>
                         <div class="row">
-                                 <%
-                                        Statement statementt = con.getConexion().createStatement();
-                                        ResultSet rss = statementt.executeQuery("select * from tecnicas");        
-                                 %>
                               <div class="form-group col-md-4">
                                   <label for="name" class="cols-sm-3 control-label">T&eacute;cnica de la Pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-text-width"></i></span>
-                                               <select type="text" id="tecnica" name="tecnica" class="form-control">   
+                                               <select type="text" id="tecnica" required="" name="tecnica" class="form-control">   
                                                <option selected > Seleccione la Tecnica</option>
-
-                                                     <% while(rss.next()) { %>
-                                                     <option value="<%=rss.getString("IdTecnica")%>"> <%=rss.getString("Tecnica")%></option> 
-                                                     <% }%>    
+                                                    <% for(int i=0; i < lista_tec.size(); i++ ){ %>
+                                                          <option value="<%=lista_tec.get(i).getIdTecnica()%>"><%= lista_tec.get(i).getTecnica()%></option>
+                                                    <% } %>
                                                  </select>
                                          </div>
                                 </div>
@@ -97,14 +98,14 @@
                                      <label for="name" class="control-label">Color de la pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-adjust"></i></span>
-                                               <input type="text" id="color" name="color" class="form-control" placeholder="Color"/>
+                                               <input type="text" id="color" required="" name="color" class="form-control" placeholder="Color"/>
                                          </div>
                                 </div>
                                <div class="form-group col-md-4">
                                      <label for="name" class="control-label">Periodo de la Pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                               <input type="text" id="periodo" name="periodo" class="form-control" placeholder="Periodo"/>
+                                               <input type="text" id="periodo" required="" name="periodo" class="form-control" placeholder="Periodo"/>
                                          </div>
                                 </div>
                          </div>
@@ -113,7 +114,7 @@
                                   <label for="name" class="cols-sm-3 control-label">Clasificaci&oacute; de la Pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-tasks"></i></span>
-                                               <input type="text" id="clasificacion" name="clasificacion" class="form-control" placeholder="Clasificacion"/>
+                                               <input type="text" id="clasificacion"  name="clasificacion" class="form-control" placeholder="Clasificacion"/>
                                          </div>
                                 </div>
                        
@@ -122,21 +123,21 @@
                                   <label for="name" class="cols-sm-3 control-label">Alto</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-option-vertical"></i></span>
-                                               <input type="text" id="alto" name="alto" class="form-control" placeholder="Alto"/>
+                                               <input type="text" id="alto" required="" name="alto" class="form-control" placeholder="Alto"/>
                                          </div>
                                 </div>
                               <div class="form-group col-md-2">
                                      <label for="name" class="control-label">Ancho</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-sound-stereo"></i></span>
-                                               <input type="text" id="ancho" name="ancho" class="form-control" placeholder="Ancho"/>
+                                               <input type="text" id="ancho" required="" name="ancho" class="form-control" placeholder="Ancho"/>
                                          </div>
                                 </div>
                                <div class="form-group col-md-2">
                                      <label for="name" class="control-label">Largo</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-option-horizontal"></i></span>
-                                               <input type="text" id="largo" name="largo" class="form-control" placeholder="Largo"/>
+                                               <input type="text" id="largo" required="" name="largo" class="form-control" placeholder="Largo"/>
                                          </div>
                                 </div>
                                </div> 
@@ -145,21 +146,21 @@
                                     <label for="name" class="control-label">Di&aacute;metro</label>
                                    <div class="input-group">
                                           <span class="input-group-addon"><i class="glyphicon glyphicon-modal-window"></i></span>
-                                          <input type="text" id="diametro" name="diametro" class="form-control" placeholder="Diam"/>
+                                          <input type="text" id="diametro" required="" name="diametro" class="form-control" placeholder="Diam"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="name" class="control-label">Grosor</label>
                                    <div class="input-group">
                                           <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
-                                          <input type="text" id="grosor" name="grosor" class="form-control" placeholder="Grosor"/>
+                                          <input type="text" id="grosor" required="" name="grosor" class="form-control" placeholder="Grosor"/>
                                     </div>
                                 </div>
                                     <div class="form-group col-md-2">
                                     <label for="name" class="control-label">Peso</label>
                                    <div class="input-group">
                                           <span class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></span>
-                                          <input type="text" id="peso" name="peso" class="form-control" placeholder="Peso"/>
+                                          <input type="text" id="peso" required="" name="peso" class="form-control" placeholder="Peso"/>
                                     </div>
                                 </div>
                          </div>  
@@ -168,21 +169,21 @@
                                      <label for="name" class="cols-sm-3 control-label">Procendecia</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-plane"></i></span>
-                                               <input type="text" id="procedencia" name="procedencia" class="form-control" placeholder="Procendencia"/>
+                                               <input type="text" id="procedencia" required="" name="procedencia" class="form-control" placeholder="Procendencia"/>
                                          </div>
                                 </div>
                               <div class="form-group col-md-4">
                                      <label for="name" class="control-label">Condicion de la Pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-exclamation-sign"></i></span>
-                                               <input type="text" id="condicion" name="condicion" class="form-control" placeholder="Condicion "/>
+                                               <input type="text" id="condicion" required="" name="condicion" class="form-control" placeholder="Condicion "/>
                                          </div>
                                 </div>
                                   <div class="form-group col-md-4">
                                   <label for="name" class="cols-sm-3 control-label">Forma de Adquisici&oacute;n</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-warning-sign"></i></span>
-                                               <input type="text" id="formaadquisicion" name="formaadquisicion" class="form-control" placeholder="FormaAdquisicion"/>
+                                               <input type="text" id="formaadquisicion" required="" name="formaadquisicion" class="form-control" placeholder="FormaAdquisicion"/>
                                          </div>
                                 </div>
                          </div>
@@ -191,7 +192,7 @@
                                   <label for="name" class="control-label">Fecha de Adquisici&oacute;n</label>
                                   <div class="input-group date" >
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                               <input type="text" id="fechaadquisi" name="fechaadquisi" class="form-control"/>
+                                               <input type="text" id="fechaadquisi" required="" name="fechaadquisi" class="form-control"/>
                                          </div>
                                 </div>
                                  
@@ -199,14 +200,14 @@
                                   <label for="name" class="cols-sm-3 control-label">R&eacute;gimen de propiedad</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                                               <input type="text" id="regimenpro" name="regimenpro" class="form-control" placeholder="Regimen"/>
+                                               <input type="text" id="regimenpro" required="" name="regimenpro" class="form-control" placeholder="Regimen"/>
                                          </div>
                                 </div>
                                   <div class="form-group col-md-4">
                                   <label for="name" class="control-label">Custodio</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                               <input type="text" id="custodio" name="custodio" class="form-control" placeholder="Custodio" />
+                                               <input type="text" id="custodio" required="" name="custodio" class="form-control" placeholder="Custodio" />
                                          </div>
                                 </div>
                          </div>
@@ -215,7 +216,7 @@
                                      <label for="name" class="cols-sm-3 control-label">Fecha de inventario</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                               <input type="text" id="fechainv" name="fechainv" class="form-control"/>
+                                               <input type="text" id="fechainv" required="" name="fechainv" class="form-control"/>
                                          </div>
                                 </div>
                               <div style="display:none;" class="form-group col-md-6">
@@ -231,7 +232,7 @@
                                      <label for="name" class="control-label">Observaciones</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span>
-                                               <textarea  id="observaciones" name="observaciones" style="color: black;" rows="2" cols="168">
+                                               <textarea  id="observaciones" required="" name="observaciones" style="color: black;" rows="2" cols="168">
                                                 </textarea> 
                                          </div>
                                 </div>
@@ -303,15 +304,11 @@
            reader.readAsDataURL(f);
        }
 }
-             
-      //document.getElementById('files').addEventListener('change', archivo, false);
-      $(document).ready(function(){
+            //document.getElementById('files').addEventListener('change', archivo, false);
+            $(document).ready(function(){
           $("input[type=file]").change(function(e){
               archivo(e);
           });
       });
-  
         </script>
-
-
 <jsp:include page="../common/footer.jsp"/>

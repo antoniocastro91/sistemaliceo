@@ -17,12 +17,12 @@ import java.sql.SQLException;
  * @author antonio
  */
 public class Conexion {
-    
-    //private String PASSWORD="RBYhqx43843";
-    //private String HOST = "mariadb24335-sistemamuna.j.facilcloud.com";
+
     private String USERNAME="root";
     private String PASSWORD="root";
+    //private String PASSWORD="IYSlgx85981";
     private String HOST = "localhost";
+    //private String HOST = "node1970-sistemmuna.j.sphere48.com";
     private String PORT = "3306";
     private String DATABASE="sistemmuna";
     private String CLASSNAME="com.mysql.jdbc.Driver";
@@ -55,7 +55,7 @@ public class Conexion {
         PreparedStatement pst;
         ResultSet rs;
         Usuario u = new Usuario();   
-        String sql ="select u.id, u.usuario,u.clave, u.nivel from usuario u, rol r where u.usuario='" + usuario +"' and u.clave= Md5("+ clave+") and u.estado=1 and u.estado = r.estado"; 
+        String sql ="select distinct u.id, u.usuario,u.clave, u.nivel from usuario u, rol r where u.usuario='" + usuario +"' and u.clave= Md5('"+ clave +"') and u.estado=1 and u.estado = r.estado"; 
         try {
             Class.forName(this.CLASSNAME);
             co=DriverManager.getConnection(

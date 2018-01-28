@@ -35,7 +35,6 @@
             <table class="table table-hover table-striped">
                 <thead >
                     <tr>
-                        <th>Id_Inv</th>
                         <th>Nº Inv</th>
                         <th>Nombre</th>
                         <th>Forma</th>
@@ -43,7 +42,6 @@
                         <th>Tecnica</th>
                         <th>Color</th>
                         <th>Periodo</th>
-                        <th>Clasificacion</th>
                         <% 
                         if(user != null){
                         if (user.getNivel() == 1){ %>
@@ -57,7 +55,6 @@
                         for(int i = 0; i < lista_inventario.size(); i++){
                     %>
                     <tr>
-                        <td><%=lista_inventario.get(i).getIdInventario()%></td>
                         <td><%=lista_inventario.get(i).getNumInventario()%></td>
                         <td><%=lista_inventario.get(i).getNombrePieza()%></td>
                         <td><%=lista_inventario.get(i).getForma()%></td>
@@ -65,7 +62,6 @@
                         <td><%=lista_inventario.get(i).getNombre_Tecnica()%></td>
                         <td><%=lista_inventario.get(i).getColor()%></td>
                         <td><%=lista_inventario.get(i).getPeriodo()%></td>
-                        <td><%=lista_inventario.get(i).getClasificacion()%></td>
                           <% 
                         if(user != null){
                         if (user.getNivel() == 1){ %>

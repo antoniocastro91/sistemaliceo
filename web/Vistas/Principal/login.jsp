@@ -1,4 +1,7 @@
+<%@page import="Controlador.Usuario.ControladorUsuario"%>
+<%@page import="Include.Usuario.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +10,8 @@
       <c:set var="req" value="${pageContext.request}" />
 	<c:set var="uri" value="${req.requestURI}" />
 	<c:set var="url">${req.requestURL}</c:set>
-	<base href="http://localhost:26683/SistemMuna/" />
+	<base href="http://localhost:26683/SistemMuna/" /> 
+	<!--<base href="http://sistemmuna.j.sphere48.com/muna/" />-->
         <link rel="stylesheet" href="resources/css/bootstrap.min.css">
         <link rel="stylesheet" href="resources/css/formlogin.css">
         <!-- icon -->
@@ -17,8 +21,12 @@
 <body>
 
 	 <div class="wrapper">
+             <p><h1 style =" color:orange">MUSEO NACIONAL DE ANTROPOLOGIA!!!</h1>
             <form class="login" method="post" id="frm-login" action="Login">
-                <p class="title">Inciar Sesión</p>
+                <div align ="center">
+		<img src ="resources/imagenes/login2.jpg" width= "225" height="175" align="center"><p>
+		</div>
+                 <p align="center" class="title" >INICAR SESI&Oacute;N</p>
                 
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                     <input type="text" name="usuario" id="usuario" placeholder="Nombre de Usuario" autofocus/>

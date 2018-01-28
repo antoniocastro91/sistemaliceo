@@ -67,13 +67,11 @@
                                             <select type="number" id="nivel" name="nivel" class="form-control">
                                                   <option <% if(usuario.getNivel()== 1){ %> selected <% }%> value="1">Administrador</option>
                                                   <option <% if(usuario.getNivel()== 2){ %> selected <% }%> value="2">Usuario</option>
+                                                  <option <% if(usuario.getNivel()== 2){ %> selected <% }%> value="3">Invitado</option>
                                             </select>
                                       </div>
                                 </div>
-  
                                 </div>
-
-                            
                                <div class="row">
                                     <div class="form-group ">
                                         <button type="submit" id="btn-registro" class="btn btn-primary btn-lg btn-block login-button">Ingresar</button>

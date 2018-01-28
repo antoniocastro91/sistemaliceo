@@ -50,7 +50,7 @@ public class ServletPiezas extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-             HttpSession sesion = request.getSession(true);
+            HttpSession sesion = request.getSession(true);
             ControladorInventario ci = new ControladorInventario();
             ci.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
             ci.crear_log("Consultó el Reporte de la pieza con el siguiente dato: " + request.getParameter("txtpieza"));
@@ -193,18 +193,18 @@ public class ServletPiezas extends HttpServlet {
                 PdfPCell bordes2 = new PdfPCell();
 
                 while(rs.next()){
-                    tablaimagenes= new PdfPTable(4);
-                    tablanompro = new PdfPTable(2);
-                    bordes= new PdfPCell();
-                    bordes2= new PdfPCell();
+                 tablaimagenes= new PdfPTable(4);
+                 tablanompro = new PdfPTable(2);
+                 bordes= new PdfPCell();
+                 bordes2= new PdfPCell();
                 
-                    numinv = new Paragraph();
-                descripcion = new Paragraph();
+                 numinv = new Paragraph();
+                 descripcion = new Paragraph();
                  detalles = new Paragraph();
                  med = new Paragraph();
                  medespacio = new Paragraph();
                 
-                     nompieza = new Paragraph();
+                 nompieza = new Paragraph();
                  forma = new Paragraph();
                  material = new Paragraph();
                  tecnica = new Paragraph();
@@ -370,19 +370,13 @@ public class ServletPiezas extends HttpServlet {
                 documento.add(nuevalinea);
                 documento.add(nuevalinea);
                 documento.add(tablaimagenes);*/
-             
-               
                 documento.close();
-                
                 } catch (Exception e) {
                     e.getMessage();
                 }
-        
-
            }               
             } catch (Exception e){e.getMessage();} {
             }
-            
             
         } catch (Exception e) {
         }

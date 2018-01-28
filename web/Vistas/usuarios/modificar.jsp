@@ -25,23 +25,20 @@
                          <h3 align="center">Formulario para la edicion de Usuarios.</h3>
                          <input type="hidden" name="id" id="id" value="<%= usuario.getId_usuario() %>"/>
                          <div class="row">
-                             <div class="form-group col-md-6">
-                                <label for="name" class="cols-sm-3 control-label">Seleccione el Rol del Usuario</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                    <select type="number" id="nivel" name="nivel" class="form-control">
-                                        <option <% if(usuario.getNivel()== 1){ %> selected <% }%> value="1">Administrador</option>
-                                        <option <% if(usuario.getNivel()== 2){ %> selected <% }%> value="2">Usuario</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
+                           <div class="form-group col-md-6">
                                <label for="name" class="control-label">Ingrese el Usuario</label>
-                                       <div class="input-group">
-                                           <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                                <input type="text" id="usuario" name="usuario" value="<%= usuario.getUsuario() %>" class="form-control" placeholder="Ingrese el Usuario"/>
-                                       </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                             <input type="text" id="usuario" name="usuario" value="<%= usuario.getUsuario() %>" class="form-control" placeholder="Ingrese el Usuario"/>
+                                    </div>
                            </div>
+                              <div class="form-group col-md-6">
+                                    <label for="name" class="control-label">Ingrese un correo electrónico</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                                <input id="email" name="email" type="text" value="<%= usuario.getEmail()%>" class="form-control" placeholder="Ingrese un Correo"/>
+                                            </div>
+                                </div>           
                          </div>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -54,13 +51,17 @@
                                         </select>
                                       </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="name" class="control-label">Ingrese un correo electrónico</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                                <input id="email" name="email" type="text" value="<%= usuario.getEmail()%>" class="form-control" placeholder="Ingrese un Correo"/>
-                                            </div>
+                             <div class="form-group col-md-6">
+                                <label for="name" class="cols-sm-3 control-label">Seleccione el Rol del Usuario</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                    <select type="number" id="nivel" name="nivel" class="form-control">
+                                        <option <% if(usuario.getNivel()== 1){ %> selected <% }%> value="1">Administrador</option>
+                                        <option <% if(usuario.getNivel()== 2){ %> selected <% }%> value="2">Usuario</option>
+                                        <option <% if(usuario.getNivel()== 3){ %> selected <% }%> value="3">Invitado</option>
+                                    </select>
                                 </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="checkbox">

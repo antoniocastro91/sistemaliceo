@@ -18,29 +18,6 @@
    
 %>
 <jsp:include page="../common/header.jsp"/>
-
-  <% /*
-        String nombre="";
-        String tipoBuscar="busCliente";
-        
-        String varListaBuscar = request.getParameter("lstBuscar");
-        if(varListaBuscar !=null){
-            if(request.getParameter("lstBuscar").equalsIgnoreCase("busNombre")){
-                tipoBuscar = "busNombre";
-            }else
-                 if(request.getParameter("lstBuscar").equalsIgnoreCase("busRol")){
-                tipoBuscar = "busRol";
-            }else
-                if(request.getParameter("lstBuscar").equalsIgnoreCase("busEstado")){
-                tipoBuscar = "busEstado";
-            }
-             if(request.getParameter("nomBuscar") != null){
-                nombre = request.getParameter("nomBuscar").toUpperCase();
-            }
-        }
-       */ 
-    
-    %>
 <style>
     .main-center-usuario{
     margin-top: 10px;
@@ -78,18 +55,16 @@
                             <label for="name"  align="center">Ingrese un nombre</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                    <input type="text" name="txtusuario"  class="form-control" />
+                                    <input id="txtusuario" type="text" name="txtusuario"  class="form-control" />
                                 </div>
                          </div>
                      </div>
                      <div class="row" align="center">
                         <div class="form-group col-md-6">
-                            <button type="submit" id="btn-registro" class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Buscar</i></button>
+                            <a id="btn-consultar" name="btnbuscar" class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Buscar</i></a>
                         </div> 
                         <div class="form-group col-md-6">
-                        
-                             <button type="submit" id="btn-registro"  class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Visualizar Todos</i></button>
-                   
+                            <button id="btnbuscartodos" type="submit" name="btnbuscartodos" class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Visualizar Todos</i></button>
                      </div>  
                 </div> 
                 </fieldset>
@@ -97,8 +72,33 @@
     </div>  
   </div>  
 </div>  
+    <script>
+       $(document).ready(function(){
+           var consultar = false;
+           $("#txtusuario").keydown(function(e){
+               if(e.which == 13){
+                   e.preventDefault();
+                   consultar_usuario();
+               }
+           });
+          $("#btn-consultar").click(function(e){
+              consultar_usuario();
+          }); 
 
 
- 
-
+       });
+       
+       function consultar_usuario(){
+           $.get('ServletUsuario',{btnbuscartodos:$("#btnbuscartodos").val(),txtusuario:$("#txtusuario").val(),consultar:true}, function(respuesta){
+                  if(respuesta == "ok"){
+                      $("form").submit();
+                      return true;
+                  }else{
+                      alert("No se ha encontrado ninguna pieza");
+                      return false;
+                  }
+              });
+       }
+        
+    </script>
 <jsp:include page="../common/footer.jsp"/>

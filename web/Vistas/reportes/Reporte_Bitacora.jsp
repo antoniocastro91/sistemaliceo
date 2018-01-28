@@ -13,7 +13,7 @@
         return;
     }
     Object nivel = sesion.getAttribute("nivel") == null ? null : sesion.getAttribute("nivel");
-    if (Integer.parseInt(nivel.toString()) == 3){
+    if (Integer.parseInt(nivel.toString()) != 1){
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/principal.jsp"));
     }
     

@@ -11,7 +11,7 @@ public class ControladorUsuario {
     ModeloUsuario mu = new ModeloUsuario();
     public int ultimo_id_insertado = -1;
     public String error = "";
-    int id_usuario;
+    int id_usuario = 1;
 
     public int getId_usuario() {
         return id_usuario;
@@ -31,11 +31,9 @@ public class ControladorUsuario {
     public boolean validar(Usuario u){
        
          boolean result = mu.Autenticar(u);
-     if(result){
+   /*  if(result){
        this.crear_log("El siguiente usuario ha iniciado sesion:" + u.getUsuario());
-     }
-     
-       
+     }*/
         return result;
     }
     public boolean insertar(Usuario u){
@@ -77,9 +75,9 @@ public class ControladorUsuario {
         this.crear_log("Consulta el listado de usuarios");
         return lista_usuarios;
     }
-   public List<Usuario> listarusu_repo(String nombre,String tipoBuscar){
+   public List<Usuario> list_nombreusu(Usuario u){
         List<Usuario> lista_usuarios = new ArrayList<Usuario>();
-        lista_usuarios = this.mu.listar_usuariosrepor(nombre, tipoBuscar);
+        lista_usuarios = this.mu.listar_nombreusuarios();
         return lista_usuarios;
     }
     public String getViewUser(Usuario u){

@@ -22,7 +22,7 @@ $(function()
        submitHandler:function(form){
             var data =  $("#frm-login").serialize();
             $.post('Login', data, function(res, est, jqXHR){
-                if(res != 'error'){
+                if(res == "ok"){
                     window.location = "Vistas/Principal/principal.jsp"; 
                 }else{
                     alert("Credenciales invalidas");

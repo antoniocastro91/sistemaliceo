@@ -33,21 +33,18 @@ public class CerrarSesion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        response.setContentType("text/html;charset=UTF-8");
-       HttpSession sesion = request.getSession(true);
        ControladorUsuario cu = new ControladorUsuario();
-       cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
-       
-    
-       if(sesion == request.getSession(false)){
-           sesion.removeValue("usuario");
-           Usuario u = new Usuario();
-           cu.crear_log("El siguiente usuario ha cerrado sesion" + request.getParameter("usuario"));
+       Usuario u = new Usuario();
+       HttpSession sesion = request.getSession(true);
+      
+       if(sesion == request.getSession(true)){
+            cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
+            cu.crear_log("El siguiente usuario ha cerrado sesion: " + sesion.getAttribute("usuario"));
+            sesion.removeValue("usuario" + u.getId_usuario());
+           //request.getSession().invalidate();
        }
        
-       
-       
-       
-       
+     
        response.sendRedirect("Vistas/Principal/login.jsp");
     }
 

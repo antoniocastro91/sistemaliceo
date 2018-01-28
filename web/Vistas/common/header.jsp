@@ -1,8 +1,7 @@
-<%@page session="true" %>
 <%@page import="Include.Usuario.Usuario"%>
 <%@page import="Controlador.Usuario.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page session="true" %>
 <%
     HttpSession sesion = request.getSession(true);
     String usuario = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();   
@@ -14,7 +13,6 @@
         user.setNivel(Integer.parseInt(session.getAttribute("nivel").toString()));
     }
 %>  
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,7 +20,8 @@
       <c:set var="req" value="${pageContext.request}" />
 	<c:set var="uri" value="${req.requestURI}" />
 	<c:set var="url">${req.requestURL}</c:set>
-	<base href="http://localhost:26683/SistemMuna/" />
+	<base href="http://localhost:26683/SistemMuna/" /> 
+	<!--<base href="http://sistemmuna.j.sphere48.com/muna/" />-->
         
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -68,7 +67,6 @@
             });
             });
         </script>
-        
   </head>
     <body>
         <nav class="navbar navbar-default">
@@ -76,7 +74,6 @@
            <a href="principal.jsp">
                <img class="img-responsive img-rounded"  src="resources/imagenes/menu1.jpg"/>
             </a>
-          
       </header>
                <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
@@ -90,10 +87,8 @@
                     <a class="navbar-brand" href="Vistas/Principal/principal.jsp"><i class="glyphicon glyphicon-home"> MUNA </i></a>
               
                 </div>
-
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
                 <ul class="nav navbar-nav">
                     <%
                         if (user.getNivel() != 3 ) { %>
@@ -126,7 +121,6 @@
                      <%   }}else{ %>
                            <li><a href="Vistas/piezas/lista_imagenes.jsp"><i class="glyphicon glyphicon-search" > Consultar Piezas</i></a></li>
                        <% }%>
-                 
                 </ul>
     
                   <ul class="nav navbar-nav navbar-right pull-right">
@@ -137,9 +131,8 @@
                             response.getWriter().print("<a href='Vistas/Principal/login.jsp'> Iniciar Sesion</a>");
                         }
                     %>
-                     
                   </ul>
                 </div><!-- /.navbar-collapse -->
               </div><!-- /.container-fluid -->
             </nav>
-    
+   
