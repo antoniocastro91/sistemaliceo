@@ -77,7 +77,7 @@
             </div>
                 <div class="col-xs-12 col-md-3">
                     <label for="">Busqueda</label>
-                    <input type="text" class="form-control" name="nombre_pieza">
+                    <input type="text" id="txtbusquedapiez" class="form-control" name="nombre_pieza">
                 </div>
                 <div class="col-xs-12 col-md-1">
                     <label for="" style="color:transparent">a</label>
@@ -165,14 +165,27 @@
  
                             
     <script>
-        $(function () {
+        $(document).ready(function(){
+             var consultar = false;
             $.each($('.card-footer'), function(){
                 $(this).css("margin-top", ($(this).parent().outerHeight() - $(this).parent().find('img').outerHeight() - $(this).parent().find('.contenido').outerHeight()- $(this).outerHeight() - 10) + "px");
              });
-            $("#btn-busqueda").click(function(){
-                
+            $("#btn-busqueda").click(function(e){
+                    consultar_pieza();
             });
         });
+               
+       function consultar_pieza(){
+           $.get('Piezas_Detalle',{txtbusquedapiez:$("#txtbusquedapiez").val(),consultar:true}, function(respuesta){
+                  if(respuesta == "ok"){
+                   
+                      return true;
+                  }else{
+                      alert("No se ha encontrado ningun usuario");
+                      return false;
+                  }
+              });
+       }
         function verdetalle(id_inventario){
             $.get('Piezas_Detalle', {id:id_inventario}, function(respuesta){
                 respuesta=JSON.parse(respuesta);
@@ -181,10 +194,13 @@
                     imagen = imagen[0];
                     var src = "<img width='250px' src='Imagenes/" + respuesta.IdInventario+ "/"+ imagen +"'/>";
                     $("#img").html(src);
+                   
                 }else{
                     imagen = "";
                     $("#img").html("");
+                  
                 }
+                
                 
                 $("#numeinv").html("<b>Numero de Inventario: </b>" + respuesta.NumInventario);
                 $("#nombre").html("<b   >Nombre :</b>" + respuesta.Nombre);

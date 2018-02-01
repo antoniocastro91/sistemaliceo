@@ -48,6 +48,7 @@ public class Detalle_Piezas extends HttpServlet {
             ci.setId_usuario(id_usuario);
             Inventario i = ci.getInventario(Integer.parseInt(id));
             JSONObject obj = new JSONObject();
+            
                 obj.put("Imagen", i.getImagenes());
                 obj.put("NumInventario", i.getNumInventario() );
                 obj.put("Descripcion",i.getDescripcion());
@@ -56,7 +57,13 @@ public class Detalle_Piezas extends HttpServlet {
                 obj.put("Material", i.getMaterial());
                 obj.put("IdInventario", i.getIdInventario());
 
-                out.print(obj);
+                if(Boolean.parseBoolean(obj.toString())){
+                     response.getWriter().print("ok");
+                }
+                else{
+                 response.getWriter().print("error");
+                }
+                
         }
     }
 

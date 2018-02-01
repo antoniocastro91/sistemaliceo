@@ -78,23 +78,21 @@
            $("#txtusuario").keydown(function(e){
                if(e.which == 13){
                    e.preventDefault();
-                   consultar_usuario();
+                   consultar_pieza();
                }
            });
           $("#btn-consultar").click(function(e){
-              consultar_usuario();
+              consultar_pieza();
           }); 
-
-
        });
        
-       function consultar_usuario(){
-           $.get('ServletUsuario',{btnbuscartodos:$("#btnbuscartodos").val(),txtusuario:$("#txtusuario").val(),consultar:true}, function(respuesta){
+       function consultar_pieza(){
+           $.get('ServletUsuario',{txtusuario:$("#txtusuario").val(),consultar:true}, function(respuesta){
                   if(respuesta == "ok"){
                       $("form").submit();
                       return true;
                   }else{
-                      alert("No se ha encontrado ninguna pieza");
+                      alert("No se ha encontrado ningun usuario");
                       return false;
                   }
               });

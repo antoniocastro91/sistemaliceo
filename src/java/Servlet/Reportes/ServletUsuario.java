@@ -74,17 +74,12 @@ public class ServletUsuario extends HttpServlet {
                 Class.forName("com.mysql.jdbc.Driver");
                 con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemmuna", "root", "root");
                 st = con.createStatement();
-                
-               if(nombreusuario == nombreusuario && btnbuscartodos == ""){
+               if(nombreusuario == nombreusuario){
+                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion, DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario Where usuario = '"+nombreusuario+"'");         
+               }
+               if(btnbuscartodos == "" ){
                 rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
-                }
-                 if(btnbuscartodos == ""){
-                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
-                } 
-                if(nombreusuario == nombreusuario){
-                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion, DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario Where usuario = '"+nombreusuario+"'");
-                }
-
+               }
                 if (con != null){     
                     
                     int total = 0;
@@ -92,7 +87,7 @@ public class ServletUsuario extends HttpServlet {
                        //Obtienes la data que necesitas...
                        total++;
                     }
-                    if(total >= 0 ){
+                    if(total > 0 ){
                        response.getWriter().print("ok");
                     }else{
                        response.getWriter().print("error");
@@ -118,19 +113,15 @@ public class ServletUsuario extends HttpServlet {
                      Class.forName("com.mysql.jdbc.Driver");
                      con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemmuna", "root", "root");
                      st = con.createStatement();
-               if(nombreusuario == nombreusuario && btnbuscartodos == ""){
-                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
-                }
-                 if(btnbuscartodos == ""){
-                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
-                } 
-                if(nombreusuario == nombreusuario){
-                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion, DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario Where usuario = '"+nombreusuario+"'");
-                }             
-                
+               if(nombreusuario == nombreusuario){
+                rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion, DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario Where usuario = '"+nombreusuario+"'");         
+               }
+               if(btnbuscartodos == "" ){
+                 rs = st.executeQuery("select usuario, email, IF(estado = 1, 'Act','Inac') as Estado, IF (nivel = 1 ,'Admin', IF (nivel = 2, 'Usuario' , 'Invitado')) as Nivel, usuariocreacion,DATE_FORMAT(fechacreacion,\"%d-%m-%Y\") ,DATE_FORMAT(fechamodificacion,\"%d-%m-%Y\") from usuario order by usuario");
+               }
                     if (con != null){
                     try {
-                         Document documento = new Document();
+                Document documento = new Document();
                 PdfWriter.getInstance(documento, out);
                 documento.open(); 
                
@@ -143,7 +134,7 @@ public class ServletUsuario extends HttpServlet {
                 
                 Paragraph par2 = new Paragraph();
                 Font fondescrip = new Font(Font.FontFamily.TIMES_ROMAN,14,Font.BOLD,BaseColor.BLACK);
-                par2.add(new Phrase("Reporte General de Usuarios:", fondescrip));
+                par2.add(new Phrase("Reporte de Usuarios:", fondescrip));
                 par2.add("\n");
                 par2.add("\n");
                 documento.add(par2);
