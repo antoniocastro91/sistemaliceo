@@ -1,9 +1,9 @@
 <%@page import="Controlador.Usuario.ControladorUsuario"%>
 <%
-    HttpSession sesion = request.getSession(true);
+    HttpSession sesion = request.getSession(false);
     String usuario = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();
+    String url = response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/login.jsp");
     if(usuario == ""){
-        String url = response.encodeRedirectURL(request.getContextPath() + "/Vistas/Principal/login.jsp");
         response.sendRedirect(url);
         return;
     }

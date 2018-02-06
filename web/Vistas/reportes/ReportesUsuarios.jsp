@@ -1,4 +1,4 @@
-<%@page import="java.util.List"%>
+    <%@page import="java.util.List"%>
 <%@page import="Include.Usuario.Usuario"%>
 <%@page import="Controlador.Usuario.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -50,20 +50,21 @@
         <form class=" frm-registrousuario" name= "reporte" action="ServletUsuario">
             <fieldset class="form-control input-group">
                 <legend>B&uacute;squeda por</legend>
-                    <div class="row" align="center">
-                        <div class="form-group col-md-7">
-                            <label for="name"  align="center">Ingrese un nombre</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                    <input id="txtusuario" type="text" name="txtusuario"  class="form-control" />
+                    <div class="row text-center">
+                        <div class="col-md-3"></div>
+                        <div class="form-group col-md-6">
+                                <div align="center" class="input-group " >
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-text-width fa fa-user fa" aria-hidden="true"></i></span>
+                                    <input id="txtusuario" type="text" name="txtusuario" placeholder="Ingrese un usuario" class="  form-control" />
                                 </div>
                          </div>
                      </div>
-                     <div class="row" align="center">
-                        <div class="form-group col-md-6">
+                     <div class="row">
+                         <div class="col-md-1"></div>
+                        <div class="form-group col-md-5">
                             <a id="btn-consultar" name="btnbuscar" class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Buscar</i></a>
                         </div> 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                             <button id="btnbuscartodos" type="submit" name="btnbuscartodos" class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Visualizar Todos</i></button>
                      </div>  
                 </div> 

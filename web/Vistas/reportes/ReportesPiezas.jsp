@@ -20,7 +20,7 @@
     .main-center-usuario{
     margin-top: 10px;
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 500px;
     padding: 10px 40px;
     background:#fff;
     color: #fff;
@@ -49,21 +49,23 @@
         <form class=" frm-registropieza" name= "reporte" action="ServletPiezas"> 
             <fieldset class="form-control input-group">               
                 <legend>B&uacute;squeda por</legend>
-                    <div class="row" align="center">
-                        <div class="form-group col-md-7">
-                            <label for="name"  align="center">Ingrese un nombre de la pieza</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                    <input id="txtpieza" type="text" name="txtpieza"  class="form-control" />
-                                </div>
-                         </div>
-                     </div> 
-                    <div class="row" align="center">
-                        <div class="form-group col-md-6">
-                            <a id="btn-consultar" class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Buscar</i></a>
-                        </div> 
-                   </div>     
-            </fieldset>
+                    <div class="row" >
+                            <div class="col-md-3"></div>
+                            <div class="form-group col-md-12">
+                                     <div align="center" class="input-group">
+                                         <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk fa fa-user fa" aria-hidden="true"></i></span>
+                                        <input id="txtpieza" type="text" name="txtpieza" class="form-control" placeholder="Ingrese un nombre de Pieza" />
+                                    </div>
+                             </div>
+                    </div>
+                     <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-1"></div>
+                             <div class="col-md-6">
+                                <a id="btn-consultar" class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Buscar</i></a>
+                            </div>
+                    </div>
+              </fieldset>
             </form>  
         </div>  
     </div>  

@@ -71,10 +71,10 @@ public class ServletLogUsuarios extends HttpServlet {
                 st = con.createStatement();
                 String sql = "";
                 if(selectusuario.equals("0")){
-                    sql = "Select * from sistemmuna.log   where hora >= str_to_date('"+ fechadesde+"', \"%Y-%m-%d\") and hora < str_to_date('"+fechahasta+"', \"%Y-%m-%d\") + interval 1 day";
+                    sql = "Select * from sistemmuna.log  where hora >= str_to_date('"+ fechadesde+"', \"%Y-%m-%d\") and hora < str_to_date('"+fechahasta+"', \"%Y-%m-%d\") + interval 1 day";
                     
                 }else{
-                    sql = "Select * from sistemmuna.log  where log.id_usuario="+selectusuario+" and hora >= str_to_date('"+ fechadesde+"', \"%Y-%m-%d\") and hora < str_to_date('"+fechahasta+"', \"%Y-%m-%d\") + interval 1 day";
+                    sql = "Select * from sistemmuna.log where log.id_usuario="+selectusuario+" and hora >= str_to_date('"+ fechadesde+"', \"%Y-%m-%d\") and hora < str_to_date('"+fechahasta+"', \"%Y-%m-%d\") + interval 1 day";
                 }
                 rs = st.executeQuery(sql);
                 if (con != null){     
@@ -141,7 +141,7 @@ public class ServletLogUsuarios extends HttpServlet {
                 PdfPTable tabla = new PdfPTable(3);      
                 tabla.setWidthPercentage(100);
                 float[] medidaCeldas = {1.50f,2.10f, 5.00f};
-                PdfPCell celda1 = new PdfPCell(new Paragraph("Nombre del Usuario", FontFactory.getFont("Arial", 12,Font.BOLDITALIC , BaseColor.BLACK))); 
+                PdfPCell celda1 = new PdfPCell(new Paragraph("Usuario", FontFactory.getFont("Arial", 12,Font.BOLDITALIC , BaseColor.BLACK))); 
                 celda1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 celda1.setVerticalAlignment(Element.ALIGN_CENTER);
                 PdfPCell celda2 = new PdfPCell(new Paragraph("Hora", FontFactory.getFont("Arial", 12,Font.BOLDITALIC , BaseColor.BLACK))); 

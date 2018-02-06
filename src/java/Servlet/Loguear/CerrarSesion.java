@@ -40,12 +40,12 @@ public class CerrarSesion extends HttpServlet {
        if(sesion == request.getSession(true)){
             cu.setId_usuario(Integer.parseInt(sesion.getAttribute("id_usuario").toString()));
             cu.crear_log("El siguiente usuario ha cerrado sesion: " + sesion.getAttribute("usuario"));
-            sesion.removeValue("usuario" + u.getId_usuario());
+            sesion.removeValue(sesion.getAttribute("usuario").toString() + u.getId_usuario());
            //request.getSession().invalidate();
+            sesion.invalidate(); 
+            response.sendRedirect("Vistas/Principal/login.jsp");
        }
-       
-     
-       response.sendRedirect("Vistas/Principal/login.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

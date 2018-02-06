@@ -7,6 +7,7 @@
     String usuario = sesion.getAttribute("usuario") == null ? "" : sesion.getAttribute("usuario").toString();   
     Usuario user = null;
     ControladorUsuario cu = null;
+
     if(usuario != ""){
         cu = new ControladorUsuario();
         user = new Usuario(usuario.toString());
@@ -27,13 +28,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="resources/css/bootstrap.min.css">    
-         <link rel="stylesheet" href="resources/css/RegistrarFicha.css">
-         <link rel="stylesheet" href="resources/css/RegistrarUsuario.css">
+          <link rel="stylesheet" href="resources/css/bootstrap.min.css">    
+          <link rel="stylesheet" href="resources/css/RegistrarFicha.css">
+          <link rel="stylesheet" href="resources/css/RegistrarUsuario.css">
           <link rel="stylesheet" href="resources/css/RegistrarInventario.css">
           <link rel="stylesheet" href="resources/css/piezas/estilo.css">
           <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
-         <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
+          <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
           <style>
 		.carousel-inner > .item > img,
 		.carousel-inner > .item > a > img {
@@ -51,10 +52,8 @@
          <script type="text/javascript" src="resources/javascript/jquery.validate.min.js"></script>
          <script type="text/javascript" src="resources/javascript/main.js"></script>
          <script type="text/javascript" src="resources/javascript/validaciones.js"></script>
-                 
-
-        <script type="text/javascript" src="resources/js/moment.js"></script>
-        <script type="text/javascript" src="resources/js/bootstrap-datetimepicker.js"></script>
+        <script type="text/javascript" src="resources/javascript/moment.js"></script>
+        <script type="text/javascript" src="resources/javascript/bootstrap-datetimepicker.js"></script>
               <script>
             
             $(document).ready(function(){
@@ -69,7 +68,7 @@
         </script>
   </head>
     <body>
-        <nav class="navbar navbar-default">
+        <nav class=" navbar navbar-default">
       <header class="main-bar header-layout-center-logo">
            <a href="principal.jsp">
                <img class="img-responsive img-rounded"  src="resources/imagenes/menu1.jpg"/>
@@ -84,7 +83,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                    <a class="navbar-brand" href="Vistas/Principal/principal.jsp"><i class="glyphicon glyphicon-home"> MUNA </i></a>
+                    <a class=" bg-default navbar-brand" href="Vistas/Principal/principal.jsp"><i class="glyphicon glyphicon-home"> MUNA </i></a>
               
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -93,7 +92,7 @@
                     <%
                         if (user.getNivel() != 3 ) { %>
                  <li class="dropdown">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="glyphicon glyphicon-folder-open"> Piezas </i><span class="caret"></span></a>
+                     <a href="#" class="bg-success dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="glyphicon glyphicon-folder-open"> Piezas </i><span class="caret"></span></a>
                    <ul class="dropdown-menu">
                        <li><a href="Vistas/piezas/lista.jsp"><i class="glyphicon glyphicon-search"> Consultar </i></a></li>
                        <li><a href="Vistas/piezas/RegistrarInventario.jsp"><i class="glyphicon glyphicon-plus"> Ingresar </i></a></li>
@@ -103,23 +102,25 @@
                      if(user != null){
                        if (user.getNivel() == 1){ %>
                    <li class="dropdown">
-                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"> Usuarios </i> <span class="caret"></span></a>
+                       <a href="#" class="bg-warning dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"> Usuarios </i> <span class="caret"></span></a>
                      <ul class="dropdown-menu">
                          <li><a href="Vistas/usuarios/ListaUsuarios.jsp"><i class="glyphicon glyphicon-search"> Consultar </i></a></li>
                          <li><a href="Vistas/usuarios/RegistroUsuarios.jsp"><i class="glyphicon glyphicon-plus"> Ingresar </i></a></li>
                      </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class=" glyphicon glyphicon-file" > Reportes </i><span class="caret"></span></a>
+                        <a href="#" class="bg-info dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class=" glyphicon glyphicon-list-alt" > Reportes </i><span class="caret"></span></a>
                       <ul class="dropdown-menu">
                           <li><a href="Vistas/reportes/ReportesPiezas.jsp"><i class="glyphicon glyphicon-book"> Reporte de Piezas </i></a></li>
                           <li><a href="Vistas/reportes/ReportesUsuarios.jsp"><i class="glyphicon glyphicon-user" > Reporte de Usuarios</i></a></li>
                           <li><a href="Vistas/reportes/Reporte_Bitacora.jsp"><i class="glyphicon glyphicon-user" > Reporte de Log Usuarios</i></a></li>
                       </ul>
                     </li>
+                    <li><a class="bg-danger" href="CerrarSesion"><i class="glyphicon glyphicon-off" > CerrarSesion</i></a></li>
                <% } %>
                      <%   }}else{ %>
-                           <li><a href="Vistas/piezas/lista_imagenes.jsp"><i class="glyphicon glyphicon-search" > Consultar Piezas</i></a></li>
+                           <li><a href="Vistas/piezas/lista_imagenes.jsp"><i class="bg-info glyphicon glyphicon-search" > Consultar Piezas</i></a></li>
+                           <li><a href="CerrarSesion"><i class=" glyphicon glyphicon-off" > Cerrar Sesion</i></a></li>
                        <% }%>
                 </ul>
     

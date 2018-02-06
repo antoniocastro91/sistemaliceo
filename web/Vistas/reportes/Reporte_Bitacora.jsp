@@ -60,7 +60,7 @@
                         <div class="form-group col-md-4">
                             <label for="name"  align="center">Seleccione un usuario</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user fa" aria-hidden="true"></i></span>
                                     <select id="selectusuario" name="selectusuario" class="form-control">
                                         <option value="0">Todos</option>
                                         <% for(int i=0; i < lista_usuario.size(); i++ ){ %>
@@ -73,20 +73,21 @@
                         <div class="form-group col-md-4">
                             <label for="name"  align="center">Desde</label>
                                 <div class="input-group date">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-user fa" aria-hidden="true"></i></span>
                                     <input id="fechadesde" type="text" name="fechadesde"  class="form-control" />
                                 </div>
                          </div>
                         <div class="form-group col-md-4">
                             <label for="name"  align="center">Hasta</label>
                                 <div class="input-group date">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-user fa" aria-hidden="true"></i></span>
                                     <input id="fechahasta" type="text" name="fechahasta"  class="form-control" />
                                 </div>
                          </div>
                      </div> 
                     <div class="row" align="center">
-                        <div class="form-group col-md-6">
+                        <div class="col-md-2"></div>
+                        <div class="form-group col-md-7">
                             <a id="btn-consultar" class="btn btn-primary btn-lg btn-block login-button"><i class="glyphicon glyphicon-search"> Buscar</i></a>
                         </div> 
                    </div>     

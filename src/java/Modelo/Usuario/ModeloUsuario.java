@@ -151,8 +151,6 @@ public class ModeloUsuario extends Conexion {
                 pst.setInt(6, u.getId_usuario());
             }
             
-            
-            
             if(pst.executeUpdate() >= 1){
                 resultado = true;
                 this.error = "No error";

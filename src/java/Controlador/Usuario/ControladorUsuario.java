@@ -82,7 +82,7 @@ public class ControladorUsuario {
     }
     public String getViewUser(Usuario u){
          String htmlcode = "";
-         htmlcode += "<b> <p> Bienvenido "+ u.getUsuario() + "</b></p>" +"<a href='CerrarSesion' > Cerrar Sesion</a>";
+         htmlcode += "<br><b><font color=blue><p> Bienvenido  </font>"+ u.getUsuario() + "</b></p>";
         return htmlcode;
     }
     public Usuario getUsuario(int id_usuario){

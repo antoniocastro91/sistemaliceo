@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.List"%>
-
 <%@page import="Include.Usuario.Usuario"%>
 <%@page import="Controlador.Usuario.ControladorUsuario"%>
 <% 
@@ -20,6 +19,7 @@
     List<Usuario> lista_usuarios = controladorUsuario.listar();
 %>
 <jsp:include page="../common/header.jsp"/>
+
 <div class ="container">
     <div class="row">
         <div class="col-xs-12">
@@ -37,7 +37,7 @@
                     <%
                         for(int i = 0; i < lista_usuarios.size(); i++){
                     %>
-                    <tr>
+                    <tr class="<%= lista_usuarios.get(i).getEstado() == 1 ? "success":"danger" %>">
                         <td><%=lista_usuarios.get(i).getUsuario()%></td>
                         <td> <%= lista_usuarios.get(i).getNombre_nivel()  %></td>
                         <td>
