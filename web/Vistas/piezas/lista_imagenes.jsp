@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="Modelo.Materiales.ModeloMateriales"%>
 <%@page import="Include.Materiales.Materiales"%>
 <%@page import="Controlador.Inventario.ControladorInventario"%>
@@ -14,7 +15,8 @@
         return;
     }
     Controlador.Inventario.ControladorInventario controladorIF = new ControladorInventario();
-    List<Inventario>  lista_inventario;
+    controladorIF.setId_usuario(Integer.parseInt(session.getAttribute("id_usuario").toString()));
+    List<Inventario> lista_inventario;
     String nombre_pieza = "";
     int filtro_tipo = 0;
     int total_registros = 0;
@@ -88,14 +90,15 @@
         </form>
     </div>
         
-    <% for(int i = 0; i < lista_inventario.size(); i++){
+    <% 
+        for(int i = 0; i < lista_inventario.size(); i++){
         String imagenes[] = lista_inventario.get(i).getImagenes() != null ?  lista_inventario.get(i).getImagenes().split(";"): null;
         String imagen = imagenes != null ? imagenes[0] : "";
         if(lista_inventario.get(i).getDescripcion().length() > 50){
             lista_inventario.get(i).setDescripcion(lista_inventario.get(i).getDescripcion().substring(0, 50));
         }
+        
     %>
-
         <div class="col-xs-12 col-sm-3 col-lg-2">
             <div class="card text-center">
                 <img class="img" src="Imagenes/<%= lista_inventario.get(i).getIdInventario() + "/" + imagen%>" height="200px"/>
@@ -137,9 +140,18 @@
                   </nav>
                </div>
            </div>
-            <%
+             <%
               }
-           %>  
+            
+            if(lista_inventario.size() == 0){
+           %>
+           <div class="row text-center">
+               <h1>NO SE ENCONTRARON REGISTROS</h1>
+           </div>
+           
+           <%
+              }
+           %> 
                      <div  class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -170,22 +182,21 @@
             $.each($('.card-footer'), function(){
                 $(this).css("margin-top", ($(this).parent().outerHeight() - $(this).parent().find('img').outerHeight() - $(this).parent().find('.contenido').outerHeight()- $(this).outerHeight() - 10) + "px");
              });
-            $("#btn-busqueda").click(function(e){
+            /*$("#btn-busqueda").click(function(e){
                     consultar_pieza();
-            });
+            });*/
         });
                
-       function consultar_pieza(){
+      /* function consultar_pieza(){
            $.get('Piezas_Detalle',{txtbusquedapiez:$("#txtbusquedapiez").val(),consultar:true}, function(respuesta){
                   if(respuesta == "ok"){
-                   
                       return true;
                   }else{
                       alert("No se ha encontrado ningun usuario");
                       return false;
                   }
               });
-       }
+       }*/
         function verdetalle(id_inventario){
             $.get('Piezas_Detalle', {id:id_inventario}, function(respuesta){
                 respuesta=JSON.parse(respuesta);

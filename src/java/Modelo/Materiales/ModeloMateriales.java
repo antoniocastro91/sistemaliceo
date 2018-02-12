@@ -32,5 +32,30 @@ public class ModeloMateriales extends Conexion {
 
         return lista_materiales;      
     }
+    
+    public String consulta(){
+
+      PreparedStatement pst = null;
+     String sql= "Select * from materiales";
+        try {
+            pst = getConexion().prepareStatement(sql);
+            pst.executeQuery();
+            ResultSet rs = pst.getResultSet();
+            
+            while (rs.next()) {
+                 Materiales material = new Materiales();
+                 material.setIdMaterial(rs.getInt("IdMaterial"));
+                 material.setMaterial(rs.getString("Material"));
+                 
+            }
+            
+        } catch (Exception e) {
+        }
+  
+
+     
+        return consulta();
+    }
+           
         
 }

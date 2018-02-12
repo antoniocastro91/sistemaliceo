@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="Include.Materiales.Materiales"%>
+<%@page import="Modelo.Materiales.ModeloMateriales"%>
 <%@page import="Modelo.Conexion.Conexion"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
@@ -24,6 +27,15 @@
     controladorinventario.setId_usuario(Integer.parseInt(session.getAttribute("id_usuario").toString()));
     Inventario ficha = new Inventario();
     ficha = controladorinventario.getInventario(Integer.parseInt(request.getParameter("id_inventario").toString()));
+   
+    Statement st = con.getConexion().createStatement();
+  //ResultSet rs = st.executeQuery("select * from materiales");  
+  
+    ModeloMateriales mm = new ModeloMateriales();
+    List<Materiales> lista_materiales =  mm.listar_materiales();
+    Statement stm = con.getConexion().createStatement();
+    ResultSet rm = stm.executeQuery("Select * from Materiales");
+    ResultSet rt = st.executeQuery("Select * from Tecnicas");
     /*ficha.setFAdquisicion(new SimpleDateFormat("dd-mm-yyyy").parse(ficha.getFAdquisicion()).toString());*/
 %>
 <jsp:include page="../common/header.jsp"/>
@@ -67,40 +79,32 @@
                                                <input type="text" id="forma" name="forma" value="<%= ficha.getForma()%>" class="form-control" placeholder="Forma"/>
                                          </div>
                                 </div>
-                                  <%
-                                         Statement statement = con.getConexion().createStatement();
-                                         ResultSet rs = statement.executeQuery("select * from Materiales");        
-                                 %>
+                               
                                <div class="form-group col-md-4">
                                      <label for="name" class="control-label">Material de la Pieza</label>
                                         <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-screenshot"></i></span>
-                                                 <select type="text" id="material" name="material" class="form-control">
-                                                    <option selected > Seleccione el Material</option>
-
-                                                     <% while(rs.next()) { %>
-                                                     <option value="<%=rs.getString("IdMaterial")%>" <%= ficha.getIdMaterial() == Integer.parseInt(rs.getString("IdMaterial")) ? "selected":"" %>> <%= rs.getString("Material")%></option> 
+                                               
+                                                <select type="text" id="material" name="material" class="form-control">
+                                                     <option selected> Seleccione el Material</option>
+                                                    <% while(rm.next()) { %>
+                                                    <option value="<%=rm.getString("IdMaterial")%>" <%= ficha.getIdMaterial() == Integer.parseInt(rm.getString("IdMaterial")) ? "selected":"" %>> <%=rm.getString("Material")%></option> 
                                                      <% }%>    
                                                  </select>
                                          </div>
                                 </div>
                          </div>
                         <div class="row">
-                                <%
-                                        Statement statementt = con.getConexion().createStatement();
-                                        ResultSet rss = statementt.executeQuery("select * from tecnicas");        
-                                 %>
                               <div class="form-group col-md-4">
                                   <label for="name" class="cols-sm-3 control-label">T&eacute;cnica de la Pieza</label>
                                         <div class="input-group">
                                                <span class="input-group-addon"><i class="glyphicon glyphicon-text-width"></i></span>
                                                <select type="text" id="tecnica" name="tecnica" class="form-control">   
                                                <option selected > Seleccione la Tecnica</option>
-
-                                                     <% while(rss.next()) { %>
-                                                     <option value="<%=rss.getString("IdTecnica")%>" <%= ficha.getIdTecnica()== Integer.parseInt(rss.getString("IdTecnica")) ? "selected":"" %>> <%=rss.getString("Tecnica")%></option> 
-                                                     <% }%>    
-                                                 </select>
+                                                 <% while(rt.next()) { %>
+                                                   <option value="<%=rt.getString("IdTecnica")%>" <%= ficha.getIdTecnica()== Integer.parseInt(rt.getString("IdTecnica")) ? "selected":"" %>> <%=rt.getString("Tecnica")%></option> 
+                                                 <% }%>   
+                                               </select>
                                          </div>
                                 </div>
                               <div class="form-group col-md-4">

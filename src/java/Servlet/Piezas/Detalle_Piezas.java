@@ -56,13 +56,7 @@ public class Detalle_Piezas extends HttpServlet {
                 obj.put("Forma", i.getForma());
                 obj.put("Material", i.getMaterial());
                 obj.put("IdInventario", i.getIdInventario());
-
-                if(Boolean.parseBoolean(obj.toString())){
-                     response.getWriter().print("ok");
-                }
-                else{
-                 response.getWriter().print("error");
-                }
+                out.print(obj);
                 
         }
     }

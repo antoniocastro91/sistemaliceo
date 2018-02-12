@@ -21,10 +21,11 @@
 <body>
 
 	 <div class="wrapper">
-             <p><h1 style =" color:orange">MUSEO NACIONAL DE ANTROPOLOGIA!!!</h1>
+            
             <form class="login" method="post" id="frm-login" action="Login">
                 <div align ="center">
-		<img src ="resources/imagenes/login2.jpg" width= "225" height="175" align="center"><p>
+                     <p><h4 style =" color:orange">MUSEO NACIONAL DE ANTROPOLOGIA</h4>
+		<img src ="resources/imagenes/login4.jpg" width= "225" height="175" align="center"><p>
 		</div>
                  <p align="center" class="title" >INICAR SESI&Oacute;N</p>
                 
